@@ -13,10 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    cell.cpp
+    game.cpp \
+    hexacellboard.cpp \
+    hexacell.cpp
 
-HEADERS  += mainwindow.h \
-    cell.h
+HEADERS  += \
+    game.h \
+    hexacellboard.h \
+    hexacell.h
 
 FORMS    += mainwindow.ui
