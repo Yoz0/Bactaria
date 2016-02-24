@@ -34,7 +34,7 @@ private:
     QGraphicsScene*     scene;
     GameModel*          gameModel;
     int ecart = 100;
-    int hexaScale = 20;
+
 
     // private methods
     void drawPanel(int x, int y, int width, int height, QColor color, double opacity);
@@ -43,4 +43,4 @@ private:
 
 };
 
-#endif // GAME_H
+#endif // GAMEVIEW_H

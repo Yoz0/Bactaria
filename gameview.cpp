@@ -64,7 +64,7 @@ void GameView::drawNewHexaCellBoard()
         for (int j = 0; j < gameModel->getHeightHexaCellBoard(); j ++)
         {
 
-            drawNewHexaCell(gameModel->getHexaCell(i,j), ecart + sqrt(3.0)/2 * hexaScale * j,0);
+            drawNewHexaCell(gameModel->getHexaCell(i,j), ecart + sqrt(3.0)/2 * gameModel->getHexaCell(i,j)->hexaScale * j,0);
          }
     }
 }
