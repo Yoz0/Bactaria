@@ -1,12 +1,12 @@
 #include <QApplication>
 
-#include "game.h"
+#include "gameview.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Game* game = new Game();
+    GameView* game = new GameView();
     game->show();
     game->start();
 

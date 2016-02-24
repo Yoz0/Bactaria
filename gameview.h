@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAMEVIEW_H
+#define GAMEVIEW_H
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -8,14 +8,15 @@
 
 #include "hexacellboard.h"
 #include "hexacell.h"
+#include "gamemodel.h"
 
-class Game: public QGraphicsView
+class GameView: public QGraphicsView
 {
     Q_OBJECT
 
 public:
     // constructors
-    Game(QWidget* parent=NULL);
+    GameView(QWidget* parent=NULL);
 
     // events
     void mouseMoveEvent(QMouseEvent *event);
@@ -23,7 +24,6 @@ public:
 
     // get / set
     QGraphicsScene* getScene();
-    HexaCellBoard*  getHexaBoard() { return hexaCellBoard; }
 
 public slots:
     void start();
@@ -32,12 +32,15 @@ public slots:
 private:
     // private attributes
     QGraphicsScene*     scene;
-    HexaCellBoard*      hexaCellBoard;
-    std::list<int>      listOfPlayerId;
+    GameModel*          gameModel;
+    int ecart = 100;
+    int hexaScale = 20;
 
     // private methods
     void drawPanel(int x, int y, int width, int height, QColor color, double opacity);
-    void drawNewHexaCell( HexaCell* hc );
+    void drawNewHexaCell(HexaCell* hc, int pos_x, int pos_y);
+    void drawNewHexaCellBoard();
+
 };
 
 #endif // GAME_H

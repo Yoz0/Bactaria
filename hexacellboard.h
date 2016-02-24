@@ -14,6 +14,9 @@ private:
 public:
     HexaCellBoard();
     ~HexaCellBoard();
+    HexaCell* getHexaCell(int i, int j) {  return board[i][j]; }
+    int getWidth() { return board.size() ;}
+    int getHeight() { return board[0].size() ;}
 };
 
 #endif // HEXACELLBOARD_H

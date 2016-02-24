@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,13 +14,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    game.cpp \
     hexacellboard.cpp \
-    hexacell.cpp
+    hexacell.cpp \
+    gameview.cpp \
+    gamemodel.cpp
 
 HEADERS  += \
-    game.h \
     hexacellboard.h \
-    hexacell.h
+    hexacell.h \
+    gameview.h \
+    gamemodel.h
 
 FORMS    += mainwindow.ui
