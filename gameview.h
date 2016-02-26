@@ -30,12 +30,6 @@ public slots:
     void restartGame();
 
 private:
-    // private attributes
-    QGraphicsScene*     scene;
-    GameModel*          gameModel;
-    int ecart = 100;
-
-
     // private methods
     void drawPanel(int x, int y, int width, int height, QColor color, double opacity);
     void drawNewHexaCell(HexaCell* hc, int pos_x, int pos_y);

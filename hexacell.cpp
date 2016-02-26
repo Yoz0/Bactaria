@@ -1,32 +1,28 @@
 #include "hexacell.h"
 #include <QtWidgets>
 
-HexaCell::HexaCell( int x, int y, int pID, CellType ct )
- : posX(x),
-   posY(y),
-   playerId(pID),
-   type(ct)
+HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
+    : indexCol(i),
+      indexLine(j),
+      playerId(pID),
+      type(ct),
+      population(pop)
 {
-
-}
-
-QRectF HexaCell::boundingRect() const
-{
-    return QRectF(0,0,2*hexaScale, sqrt(3.0)*hexaScale);
+    QPolygonF pol;
+    pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
+        << QPointF( -1, 0 ) << QPointF( qreal(-1.0/2), qreal(-sqrt(3.0)/2) ) << QPointF( qreal(1.0/2), qreal(-sqrt(3.0)/2) );
+    this->setPolygon( pol );
 }
 
 QPainterPath HexaCell::shape() const
 {
     QPainterPath path;
-    QPolygonF pol;
-    pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
-        << QPointF( -1, 0 ) << QPointF( qreal(-1.0/2), qreal(-sqrt(3.0)/2) ) << QPointF( qreal(1.0/2), qreal(-sqrt(3.0)/2) );
-    path.addPolygon(pol);
+    path.addPolygon( this->polygon() );
     return path;
 }
 
 void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    painter->drawRoundedRect(-100,-100,20,20,5,5);
+    painter->drawRoundedRect(-10,-10,20,20,5,5);
 }
 

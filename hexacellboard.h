@@ -2,6 +2,8 @@
 #define HEXACELLBOARD_H
 
 #include <vector>
+#include <list>
+#include <QGraphicsScene>
 #include "hexacell.h"
 
 using namespace std;
@@ -9,14 +11,22 @@ using namespace std;
 class HexaCellBoard
 {
 private:
-    vector< vector <HexaCell*> > board;
+    vector< vector <HexaCell*> >    board;
+    std::list<int>                  listOfPlayerId;
 
 public:
+    // Constructor / Destructor
     HexaCellBoard();
     ~HexaCellBoard();
-    HexaCell* getHexaCell(int i, int j) {  return board[i][j]; }
+
+    // Getter / Setter
+    HexaCell* getHexaCell(int i, int j) { return board[i][j]; }
     int getWidth() { return board.size() ;}
     int getHeight() { return board[0].size() ;}
+
+    //
+    void setupBoard( QGraphicsScene* scene );
+
 };
 
 #endif // HEXACELLBOARD_H

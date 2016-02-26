@@ -5,39 +5,42 @@
 
 enum CellType
 {
-    normal = 0,
-    farm = 1
+    NORMAL = 0,
+    FARM = 1
 };
 
 class HexaCell : public QGraphicsPolygonItem
 {
+private:
+    int         indexLine;
+    int         indexCol;
+    int         playerId;
+    int         population;
+    CellType    type;
+
 public:
     const int   hexaScale = 20;
 
-    HexaCell( int x, int y, int pID, CellType ct );
+    HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 );
     ~HexaCell();
 
-    int getPosX() { return posX; }
-    int getPosY() { return posX; }
-    int getPlayerID() { return playerId; }
+    // Getter and setter
+    int getIndexLine() const { return indexLine; }
+    int getIndexColumn() const { return indexCol; }
+    int getPlayerID() const { return playerId; }
     void setPlayerID(int id) { playerId = id; }
-    CellType getCellType() { return type; }
-    void setCellType(CellType ct) { type = ct; }
+    CellType getCellType() const { return type; }
+    int getPopulation() const { return population; }
+    void setPopulation(int pop) { population = pop; }
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) Q_DECL_OVERRIDE;
+    //override methods
+    QPainterPath shape() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
-private:
-    CellType    type;
-    int         playerId;
-    int         posX;
-    int         posY;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 };
 

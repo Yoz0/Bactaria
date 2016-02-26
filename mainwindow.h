@@ -1,22 +1,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
+#include <QGraphicsScene>
+#include "gameview.h"
+#include "hexacellboard.h"
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    MainWindow(QWidget *parent = 0);
 
 private:
-    Ui::MainWindow *ui;
+    QGraphicsScene* scene;
+    GameView*       gameView;
+    HexaCellBoard*  hexaCellBoard;
+
 };
 
 #endif // MAINWINDOW_H

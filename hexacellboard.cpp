@@ -4,3 +4,13 @@ HexaCellBoard::HexaCellBoard()
 {
 
 }
+
+HexaCellBoard::~HexaCellBoard()
+{
+
+}
+
+void HexaCellBoard::setupBoard(QGraphicsScene *scene)
+{
+
+}

@@ -17,12 +17,12 @@ SOURCES += main.cpp\
     hexacellboard.cpp \
     hexacell.cpp \
     gameview.cpp \
-    gamemodel.cpp
+    mainwindow.cpp
 
 HEADERS  += \
     hexacellboard.h \
     hexacell.h \
     gameview.h \
-    gamemodel.h
+    mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
