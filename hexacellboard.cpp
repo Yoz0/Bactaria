@@ -12,8 +12,8 @@ HexaCellBoard::~HexaCellBoard()
 
 void HexaCellBoard::setupBoard(QGraphicsScene *scene)
 {
-    int  width= 15; //TODO: Il faut mettre ces machins en paramètres
-    int height = 10;
+    int width= 15; //TODO: Il faut mettre ces machins en paramètres
+    int height = 15;
     this->board.resize(width);
     for(int i = 0 ; i < width ; i ++)
     {
