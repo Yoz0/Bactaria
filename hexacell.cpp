@@ -58,7 +58,23 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setPen(p);
 
     //SetBrush for painter
-    QColor color(60, 60, 170);
+    QColor color;
+    switch(playerId)
+    {
+    case 0:
+        color = QColor(251,253,248);
+        break;
+    case 1:
+        color = QColor(70,109,150);
+        break;
+    case 2:
+        color = QColor(208,107,103);
+        break;
+    default:
+        std::cerr << "Error hexacell.cpp : paint playerID";
+
+    }
+
     QRadialGradient gradient( 2, 2, 30, 2, 2);
     color = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
     if ( option->state & QStyle::State_MouseOver )
@@ -69,6 +85,10 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     QBrush b(gradient);
     painter->setBrush(b);
     painter->drawPolygon(this->polygon());
+
+    //Population Text
+    if( option->state & QStyle::State_MouseOver )
+        painter->drawText( this->boundingRect(), Qt::AlignCenter, QString::number( this->population ) );
 }
 
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
