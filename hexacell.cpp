@@ -11,7 +11,15 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     QPolygonF pol;
     pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
         << QPointF( -1, 0 ) << QPointF( qreal(-1.0/2), qreal(-sqrt(3.0)/2) ) << QPointF( qreal(1.0/2), qreal(-sqrt(3.0)/2) );
+    for (size_t i = 0, n = pol.size(); i < n; ++i){
+        pol[i] = pol[i] * this->hexaSize;
+    }
     this->setPolygon( pol );
+}
+
+HexaCell::~HexaCell()
+{
+
 }
 
 QPainterPath HexaCell::shape() const
@@ -23,6 +31,6 @@ QPainterPath HexaCell::shape() const
 
 void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
-    painter->drawRoundedRect(-10,-10,20,20,5,5);
+    painter->drawPolygon(this->polygon());
 }
 

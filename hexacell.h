@@ -19,9 +19,9 @@ private:
     CellType    type;
 
 public:
-    const int   hexaScale = 20;
+    static const int   hexaSize = 20;
 
-    HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 );
+    HexaCell( int i, int j, int pID, CellType ct, int pop );
     ~HexaCell();
 
     // Getter and setter
@@ -38,10 +38,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
 protected:
+    /*
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
+    */
 };
 
 #endif // HEXACELL_H

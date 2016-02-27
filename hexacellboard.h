@@ -13,10 +13,12 @@ class HexaCellBoard
 private:
     vector< vector <HexaCell*> >    board;
     std::list<int>                  listOfPlayerId;
+    int width;
+    int height;
 
 public:
     // Constructor / Destructor
-    HexaCellBoard();
+    HexaCellBoard(QGraphicsScene* scene);
     ~HexaCellBoard();
 
     // Getter / Setter

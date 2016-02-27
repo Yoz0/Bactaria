@@ -8,7 +8,6 @@
 
 #include "hexacellboard.h"
 #include "hexacell.h"
-#include "gamemodel.h"
 
 class GameView: public QGraphicsView
 {
@@ -22,19 +21,13 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent* event);
 
-    // get / set
-    QGraphicsScene* getScene();
-
 public slots:
     void start();
     void restartGame();
 
 private:
-    // private methods
-    void drawPanel(int x, int y, int width, int height, QColor color, double opacity);
-    void drawNewHexaCell(HexaCell* hc, int pos_x, int pos_y);
-    void drawNewHexaCellBoard();
 
+    // private methods
 };
 
 #endif // GAMEVIEW_H
