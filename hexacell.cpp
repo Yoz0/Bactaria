@@ -59,10 +59,10 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     //SetBrush for painter
     QColor color(60, 60, 170);
-    QRadialGradient gradient( 2, 2, 35, 2, 2);
+    QRadialGradient gradient( 2, 2, 30, 2, 2);
     color = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
     if ( option->state & QStyle::State_MouseOver )
-        gradient.setColorAt(0, color.light(150));
+        gradient.setColorAt(0, color.light(170));
     else
         gradient.setColorAt(0, color);
     gradient.setColorAt(1, QColor::fromRgbF(0,0,0,1));
