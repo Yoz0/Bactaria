@@ -43,6 +43,7 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     */
+
 };
 
 #endif // HEXACELL_H

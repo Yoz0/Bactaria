@@ -12,6 +12,8 @@ GameView::GameView(QWidget* parent)
     */
     setFixedSize(1024,768);
 
+    //antialiasing
+    //this->setRenderHint(QPainter::Antialiasing, antialiasButton->isChecked());
 }
 
 void GameView::mouseMoveEvent(QMouseEvent *event)
