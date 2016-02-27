@@ -7,5 +7,5 @@ MainWindow::MainWindow(QWidget *parent)
     gameView = new GameView(this);
     hexaCellBoard = new HexaCellBoard(this->scene);
     gameView->setScene(scene);
-    gameView->show();
+    gameView->setParent(this);
 }
