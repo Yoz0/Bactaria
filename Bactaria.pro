@@ -24,5 +24,3 @@ HEADERS  += \
     hexacell.h \
     gameview.h \
     mainwindow.h
-
-FORMS    +=
