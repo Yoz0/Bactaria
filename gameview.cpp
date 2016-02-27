@@ -11,9 +11,6 @@ GameView::GameView(QWidget* parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     */
     setFixedSize(1024,768);
-
-    //antialiasing
-    //this->setRenderHint(QPainter::Antialiasing, antialiasButton->isChecked());
 }
 
 void GameView::mouseMoveEvent(QMouseEvent *event)
