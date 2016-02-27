@@ -3,12 +3,15 @@
 #include <QtWidgets>
 #include <QRadialGradient>
 
+using namespace std;
+
 HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     : indexCol(i),
       indexLine(j),
       playerId(pID),
       type(ct),
-      population(pop)
+      population(pop),
+      mouseHover(false)
 {
     QPolygonF pol;
     pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
@@ -18,7 +21,15 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     }
     this->setPolygon( pol );
 
-    setFlags(ItemIsSelectable | ItemIsFocusable | ItemIsFocusScope);
+    //Allows mouse events
+    setFlags(ItemIsSelectable);
+    setAcceptHoverEvents(true);
+
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    effect->setBlurRadius(10);
+    effect->setColor(QColor(0,0,0,1));
+    effect->setOffset(QPointF(5,5));
+    setGraphicsEffect(effect);
 }
 
 HexaCell::~HexaCell()
@@ -49,13 +60,32 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     //SetBrush for painter
     QColor color(60, 60, 170);
     QRadialGradient gradient( 2, 2, 35, 2, 2);
-    gradient.setColorAt(0, color);
+    color = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
+    if ( option->state & QStyle::State_MouseOver )
+        gradient.setColorAt(0, color.light(150));
+    else
+        gradient.setColorAt(0, color);
     gradient.setColorAt(1, QColor::fromRgbF(0,0,0,1));
     QBrush b(gradient);
     painter->setBrush(b);
     painter->drawPolygon(this->polygon());
+}
 
-    if (this->hasFocus())
-        std::cout<<"coucou"<<std::endl;
+void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
+    this->update();
+}
+
+void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseMoveEvent(event);
+    this->update();
+}
+
+void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    this->update();
 }
 

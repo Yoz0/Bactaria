@@ -17,6 +17,7 @@ private:
     int         playerId;
     int         population;
     CellType    type;
+    bool        mouseHover;
 
 public:
     static const int   hexaSize = 20;
@@ -38,11 +39,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
 protected:
-    /*
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    */
+
 
 };
 
