@@ -1,18 +1,29 @@
-Bactaria --> Jeu de stratégie en temps réél, développé en C++ avec QT
+Bactaria
+========
+Jeu de stratégie en temps réél, développé en C++ avec Qt
 
-Projet de base :
-	Un tableau de cellule héxagonale est présent.
-	Lorsque l'on passe la souris sur une cellule, elle apparait en subrillance et la population est indiquée.
-	Nous pouvons faire un double clic sur la cellule pour la sélectionner.
-	La couleur de la cellule change selon l'id du joueur.
+Description du projet
+---------------------
+Lire le cahier des charges disponible [ici](https://drive.google.com/file/d/0B0TeTfnKOJcfSnloVmdPck9XWmc/view?usp=sharing)
 
-Instructions pour compiler et lancer le projet sous Ubuntu / Linux:
-$ sudo apt-get update
-$ sudo apt-get install qt5-default
-$ cd ./chemin_du_dossier/Bactaria
-$ qmake
-$ make
-$ ./Bactaria
+Actuellement implémenté
+-----------------------
+Un tableau de cellule héxagonale est présent.
+Lorsque l'on passe la souris sur une cellule, elle apparait en subrillance et la population est indiquée.
+Nous pouvons faire un double clic sur la cellule pour la sélectionner.
+La couleur de la cellule change selon l'id du joueur.
 
-Sous Windows ou MacOS il est nécessaire d'installer Qt puis d'ouvrir le projet :
-https://www.qt.io/download-open-source/
+Instructions d'installation
+---------------------------
+### Ubuntu/Linux
+* `sudo apt-get update`
+* `sudo apt-get install qt5-default`
+* `cd ./chemin_du_dossier/Bactaria`
+* `qmake`
+* `make`
+* `./Bactaria`
+
+### Windows ou MacOS :
+* Installer Qt https://www.qt.io/download-open-source/
+* Ouvrir le projet Bactaria.pro
+* Appuyer sue le bouton "Run"
