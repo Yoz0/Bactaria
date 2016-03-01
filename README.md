@@ -6,9 +6,17 @@ Description du projet
 ---------------------
 Lire le cahier des charges disponible [ici](https://drive.google.com/file/d/0B0TeTfnKOJcfSnloVmdPck9XWmc/view?usp=sharing)
 
+Developpers
+-----------
+
+* Clément FLOQUET
+* Stéphane KASTENBAUM
+* Félix AH KANE
+* Alexian MASSON
+
 Actuellement implémenté
 -----------------------
-Un tableau de cellule héxagonale est présent.
+Un tableau de cellule hexagonale est présent.
 Lorsque l'on passe la souris sur une cellule, elle apparait en subrillance et la population est indiquée.
 Nous pouvons faire un double clic sur la cellule pour la sélectionner.
 La couleur de la cellule change selon l'id du joueur.
@@ -26,4 +34,4 @@ Instructions d'installation
 ### Windows ou MacOS :
 * Installer Qt https://www.qt.io/download-open-source/
 * Ouvrir le projet Bactaria.pro
-* Appuyer sue le bouton "Run"
+* Appuyer sur le bouton "Run"
