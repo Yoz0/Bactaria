@@ -38,6 +38,9 @@ public:
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
+    //GameAction
+    void growing();
+
 protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

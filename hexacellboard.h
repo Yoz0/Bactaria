@@ -11,10 +11,10 @@ using namespace std;
 class HexaCellBoard
 {
 private:
-    vector< vector <HexaCell*> >    board;
-    std::list<int>                  listOfPlayerId;
-    int width;
-    int height;
+    vector<vector<HexaCell*>>   board;
+    list<HexaCell*>             playerCells;
+    list<HexaCell*>             botCells;
+    HexaCell*                   selected;
 
 public:
     // Constructor / Destructor
@@ -26,9 +26,9 @@ public:
     int getWidth() { return board.size() ;}
     int getHeight() { return board[0].size() ;}
 
-    //
+    //GameAction
     void setupBoard( QGraphicsScene* scene );
-
+    void cellGrowing();
 };
 
 #endif // HEXACELLBOARD_H

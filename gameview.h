@@ -17,14 +17,6 @@ public:
     // constructors
     GameView(QWidget* parent=NULL);
 
-    // events
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent* event);
-
-public slots:
-    void start();
-    void restartGame();
-
 private:
 
     // private methods
