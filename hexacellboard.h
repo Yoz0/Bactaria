@@ -5,6 +5,7 @@
 #include <list>
 #include <QGraphicsScene>
 #include "hexacell.h"
+#include <QObject>
 
 using namespace std;
 

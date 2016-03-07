@@ -57,6 +57,6 @@ void HexaCellBoard::cellGrowing()
 
     for( auto b : botCells )
     {
-        b.growing();
+        b->growing();
     }
 }

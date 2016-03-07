@@ -22,7 +22,7 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     this->setPolygon( pol );
 
     //Allows mouse events
-    setFlags(ItemIsSelectable);
+    setFlags(ItemIsSelectable | ItemIsFocusable);
     setAcceptHoverEvents(true);
 
     QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
@@ -104,13 +104,13 @@ void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseMoveEvent(event);
-    this->update();
+    //QGraphicsItem::mouseMoveEvent(event);
+    //this->update();
 }
 
 void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseReleaseEvent(event);
-    this->update();
+    //QGraphicsItem::mouseReleaseEvent(event);
+    //this->update();
 }
 
