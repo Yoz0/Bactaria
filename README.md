@@ -4,7 +4,7 @@ Jeu de stratégie en temps réél, développé en C++ avec Qt
 
 Description du projet
 ---------------------
-Lire le cahier des charges disponible [ici](https://drive.google.com/file/d/0B0TeTfnKOJcfSnloVmdPck9XWmc/view?usp=sharing)
+Lire le cahier des charges disponible [ici](https://drive.google.com/open?id=0B04mal1k1aWcV0h2X0NwZV9YbWM)
 
 Developpers
 -----------
