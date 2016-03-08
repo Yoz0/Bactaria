@@ -1,8 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QApplication>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QMessageBox>
 #include "gameview.h"
 #include "hexacellboard.h"
 
@@ -16,12 +18,16 @@ public:
 
     void timerEvent(QTimerEvent *event);
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     QGraphicsScene* scene;
     GameView*       gameView;
     HexaCellBoard*  hexaCellBoard;
 
     bool            started;
+    bool            maybeClose();
 };
 
 #endif // MAINWINDOW_H
