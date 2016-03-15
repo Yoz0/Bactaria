@@ -42,6 +42,9 @@ public:
     //GameAction
     void growing();
 
+signals:
+    void rightClicked();
+
 protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

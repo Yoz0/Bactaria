@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     isInstanced = true;
     //Background image
-    this->setStyleSheet("background-color: black");
+    this->setStyleSheet("background-color: white");
                 //"background-image:url(\"background.jpg\"); background-position: center;"
                 //background-image: url(:Bactaria/background.jpg; background-position: center;  A CONTINUER en changeant taille de la fenêtre aussi
 
@@ -58,12 +58,12 @@ bool MainWindow::maybeClose() //Confirm close event
 {
    QMessageBox msgBox;
    QMessageBox::StandardButton ret;
-   ret = QMessageBox::warning(this,
+   ret = QMessageBox::question(this,
                               tr("Bactaria"),
                               tr("Are you sure you want to leave this lovely game?"),
-                              QMessageBox::Discard | QMessageBox::Cancel);
-   msgBox.setStyleSheet("background-color: white");
-        if (ret == QMessageBox::Discard)
+                              QMessageBox::Yes| QMessageBox::Cancel);
+   msgBox.setStyleSheet("background-color: blue");
+        if (ret == QMessageBox::Yes)
         {
             return true;
         }
