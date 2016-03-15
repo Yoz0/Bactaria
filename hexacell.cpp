@@ -101,7 +101,7 @@ void HexaCell::growing()
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
-
+    MainWindow::getInstance()->newSelectedCell(this);
     this->update();
 }
 /*

@@ -54,6 +54,21 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
+void MainWindow::newSelectedCell(HexaCell *hc)
+{
+    if (selectedCell == NULL)
+    {
+        selectedCell = hc;
+    }
+    else
+    {
+        int popToMove = selectedCell->getPopulation() / 2;
+        selectedCell->setPopulation(selectedCell->getPopulation() - popToMove);
+        hc->setPopulation(popToMove+hc->getPopulation());
+        selectedCell = NULL;
+    }
+}
+
 bool MainWindow::maybeClose() //Confirm close event
 {
    QMessageBox msgBox;
