@@ -1,4 +1,5 @@
 #include "hexacell.h"
+#include "mainwindow.h"
 #include <iostream>
 #include <QtWidgets>
 #include <QRadialGradient>
@@ -30,6 +31,7 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     effect->setColor(QColor(0,0,0,1));
     effect->setOffset(QPointF(5,5));
     setGraphicsEffect(effect);
+
 }
 
 HexaCell::~HexaCell()
@@ -101,7 +103,7 @@ void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
     this->update();
 }
-
+/*
 void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     //QGraphicsItem::mouseMoveEvent(event);
@@ -113,4 +115,4 @@ void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     //QGraphicsItem::mouseReleaseEvent(event);
     //this->update();
 }
-
+*/

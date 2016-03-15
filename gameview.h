@@ -11,8 +11,6 @@
 
 class GameView: public QGraphicsView
 {
-    Q_OBJECT
-
 public:
     // constructors
     GameView(QWidget* parent=NULL);

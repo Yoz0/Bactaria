@@ -11,6 +11,7 @@ enum CellType
 
 class HexaCell : public QGraphicsPolygonItem
 {
+
 private:
     int         indexLine;
     int         indexCol;
@@ -44,8 +45,8 @@ public:
 protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+//    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 
 };

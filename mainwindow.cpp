@@ -4,6 +4,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
+
+    isInstanced = true;
     //Background image
     this->setStyleSheet("background-color: black");
                 //"background-image:url(\"background.jpg\"); background-position: center;"
@@ -20,7 +22,6 @@ void MainWindow::start()
     hexaCellBoard = new HexaCellBoard(this->scene);
     gameView->setScene(scene);
     gameView->setParent(this);
-
     hexaCellBoard->setupBoard(this->scene);
 
     startTimer(500);   // 1/2-second timer
@@ -72,3 +73,6 @@ bool MainWindow::maybeClose() //Confirm close event
         }
     return true;
 }
+
+bool MainWindow::isInstanced = false;
+MainWindow* MainWindow::singleton;

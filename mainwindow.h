@@ -10,9 +10,21 @@
 
 class MainWindow : public QWidget
 {
-    Q_OBJECT
+
 public:
-    MainWindow(QWidget *parent = 0);
+    static MainWindow* getInstance()
+    {
+        if(isInstanced==false)
+        {
+            singleton=new MainWindow();
+            return singleton;
+        }
+        else
+        {
+            return singleton;
+        }
+    }
+
     void start();
     void restart();
 
@@ -26,8 +38,15 @@ private:
     GameView*       gameView;
     HexaCellBoard*  hexaCellBoard;
 
+    static MainWindow*     singleton;
+    static bool     isInstanced;
+
+
     bool            started;
     bool            maybeClose();
+
+    MainWindow(QWidget *parent = 0);
+
 };
 
 #endif // MAINWINDOW_H

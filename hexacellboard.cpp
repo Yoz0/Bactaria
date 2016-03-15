@@ -1,4 +1,5 @@
 #include "hexacellboard.h"
+#include "mainwindow.h"
 
 HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
 {
