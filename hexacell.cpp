@@ -22,7 +22,7 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     this->setPolygon( pol );
 
     //Allows mouse events
-    setFlags(ItemIsSelectable | ItemIsFocusable);
+    setFlags(ItemIsSelectable | ItemIsFocusable | ItemIsMovable);
     setAcceptHoverEvents(true);
 
     QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
@@ -99,6 +99,7 @@ void HexaCell::growing()
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
+
     this->update();
 }
 
@@ -110,7 +111,46 @@ void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (event->button() == Qt::RightButton)
+    {
+        int factArg = 0;
+                int fact(1);
+                factArg = QInputDialog::getInt(0, "Factorial Calculator",
+                    "Factorial of:", 1);
+                int i=2;
+                while (i <= factArg) {
+                    fact = fact * i;
+                    ++i;
+                }
+
+
+                    QString response = QString("The factorial of %1 is %2.\n%3")
+                        .arg(factArg).arg(fact)
+                        .arg("Compute another factorial?");
+                    QMessageBox msgBox;
+                    QFont font; font.setBold(true);
+                    msgBox.setFont(font);
+                    QMessageBox::StandardButton ret;
+                    ret = QMessageBox::question(0, "Play again?", response,
+                        QMessageBox::Save | QMessageBox::No);
+
+
+        /*
+        QMessageBox msgBox;
+        QPushButton *more_bact_Button = msgBox.addButton(QObject::tr("Add"), QMessageBox::ActionRole);
+        QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
+        QMessageBox::StandardButton box;
+        msgBox.setText("You right-clicked");
+        msgBox.exec();
+        if (msgBox.clickedButton() == more_bact_Button)
+        {
+
+        }*/
+
+    }
+    //else if (event->button() == Qt::LeftButton)
     //QGraphicsItem::mouseReleaseEvent(event);
     //this->update();
 }
+
 
