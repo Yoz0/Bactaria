@@ -89,13 +89,14 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawPolygon(this->polygon());
 
     //Population Text
-    if( option->state & QStyle::State_MouseOver )
+    //if( option->state & QStyle::State_MouseOver )
         painter->drawText( this->boundingRect(), Qt::AlignCenter, QString::number( this->population ) );
 }
 
 void HexaCell::growing()
 {
     this->population+= 1;
+    this->update();
 }
 
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
