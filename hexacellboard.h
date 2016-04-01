@@ -16,6 +16,8 @@ private:
     list<HexaCell*>             playerCells;
     list<HexaCell*>             botCells;
     HexaCell*                   selected;
+    int width;
+    int height;
 
 public:
     // Constructor / Destructor
@@ -24,12 +26,14 @@ public:
 
     // Getter / Setter
     HexaCell* getHexaCell(int i, int j) { return board[i][j]; }
-    int getWidth() { return board.size() ;}
-    int getHeight() { return board[0].size() ;}
+    int getWidth() { return width;}
+    int getHeight() { return height;}
+
 
     //GameAction
     void setupBoard( QGraphicsScene* scene );
     void cellGrowing();
+    list<HexaCell*>* dijkstra(HexaCell* start, HexaCell* end, int idPlayer);
 };
 
 #endif // HEXACELLBOARD_H

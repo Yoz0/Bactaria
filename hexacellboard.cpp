@@ -1,8 +1,11 @@
 #include "hexacellboard.h"
+#include <queue>
+#include <math.h>
 
 HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
 {
-
+    width= 4;
+    height = 4;
 }
 
 HexaCellBoard::~HexaCellBoard()
@@ -12,8 +15,6 @@ HexaCellBoard::~HexaCellBoard()
 
 void HexaCellBoard::setupBoard(QGraphicsScene *scene)
 {
-    int width= 4; //TODO: Il faut mettre ces machins en paramètres
-    int height = 4;
     this->board.resize(width);
 
     for(int i = 0 ; i < width ; i ++)
@@ -46,6 +47,31 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene)
             }
         }
     }
+
+    for(int i = 0 ; i < width ; i ++)
+    {
+        for(int j = 0 ; j < width ; j ++)
+        {
+            if( i-1 >= 0 && board[i-1][j] != nullptr ) // i-1 j
+                board[i][j]->setNewVoisin( board[i-1][j] );
+
+            if( j-1 >= 0 && board[i][j-1] != nullptr ) // i j-1
+                board[i][j]->setNewVoisin( board[i][j-1] );
+
+            if ( i-1 >= 0 && j-1 >= 0 && board[i-1][j-1] != nullptr ) // i-1 j-1
+                board[i][j]->setNewVoisin( board[i-1][j-1] );
+
+            if ( i+1 < width && board[i+1][j] != nullptr ) // i+1 j
+                board[i][j]->setNewVoisin( board[i+1][j] );
+
+            if ( j+1 < height && board[i][j+1] != nullptr ) // i j+1
+                board[i][j]->setNewVoisin( board[i][j+1] );
+
+            if ( i+1 < width && j+1 < height && board[i][j+1] != nullptr) // i+1 j+1
+                board[i][j]->setNewVoisin( board[i+1][j+1] );
+        }
+    }
+
 }
 
 void HexaCellBoard::cellGrowing()
@@ -59,4 +85,74 @@ void HexaCellBoard::cellGrowing()
     {
         b->growing();
     }
+}
+
+
+list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
+{
+    if( start != nullptr || end != nullptr )
+        return nullptr;
+
+    vector<vector<int>> boardDistance(width, vector<int>(height) );
+    queue<HexaCell*> qCell;
+
+    for(int i=0; i < width; i++)
+    {
+        for(int j=0; j < height; j++)
+        {
+            if( board[i][j] == nullptr )
+                boardDistance[i][j] = -1;
+            else
+                boardDistance[i][j] = -2;
+        }
+    }
+
+    qCell.push(start);
+    HexaCell* temp = start;
+
+    boardDistance[start->getIndexLine()][start->getIndexColumn()] = 0;
+
+    while( temp != end || !qCell.empty() )
+    {
+        for( auto voisin : temp->getVoisins() )
+        {
+            if( boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] == -2
+                    && idPlayer == board[voisin->getIndexLine()][voisin->getIndexColumn()]->getPlayerID() ) // pas case vide et verif id
+            {
+                qCell.push( board[voisin->getIndexLine()][voisin->getIndexColumn()] );
+                boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] = 1 + boardDistance[temp->getIndexLine()][temp->getIndexColumn()];
+            }
+        }
+
+        qCell.pop();
+        temp = qCell.front();
+    }
+
+    if( temp != end )
+        return nullptr;
+
+    list<HexaCell*>* ret;
+    temp = end;
+    ret->push_back(end);
+
+    HexaCell* temp2;
+    int value;
+
+    while( temp != start )
+    {
+        value = 1000;
+        for( auto voisin : temp->getVoisins() )
+        {
+            if( boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] < value
+                    && boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] == -2)
+            {
+                temp2 = voisin;
+                value = boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()];
+            }
+        }
+        temp2 = temp;
+        ret->push_back(temp);
+    }
+
+    return ret;
 }
