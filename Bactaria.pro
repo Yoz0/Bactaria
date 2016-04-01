@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     hexacellboard.cpp \
     hexacell.cpp \
     gameview.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    ia.cpp
 
 HEADERS  += \
     hexacellboard.h \
     hexacell.h \
     gameview.h \
-    mainwindow.h
+    mainwindow.h \
+    ia.h
 
 OTHER_FILES += \
     README.md
