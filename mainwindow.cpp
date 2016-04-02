@@ -25,9 +25,13 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
     hexaCellBoard->setupBoard(this->scene);
+<<<<<<< HEAD
     selectedCell = nullptr;
+=======
+    ia = new IA(hexaCellBoard,2);
+>>>>>>> a668e83357492c3b5925b0701ccaa8ca55cd9e19
 
-    startTimer(500);   // 1/2-second timer
+    startTimer(1000);   // 1/2-second timer
     started = true;
 }
 
@@ -54,6 +58,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     if(started)
     {
         this->hexaCellBoard->cellGrowing();
+        this->ia->action();
     }
 }
 
@@ -79,7 +84,6 @@ void MainWindow::newSelectedCell(HexaCell *hc)
         {
         std::cout<<"nul"<<std::endl;
         }
-
         selectedCell = nullptr;
     }
 }

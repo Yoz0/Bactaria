@@ -93,7 +93,7 @@ void HexaCellBoard::cellGrowing()
 
 list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
 {
-    if( start != nullptr || end != nullptr )
+    if( start == nullptr || end == nullptr )
         return nullptr;
 
     vector<vector<int>> boardDistance(width, vector<int>(height) );
@@ -115,7 +115,7 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
 
     boardDistance[start->getIndexLine()][start->getIndexColumn()] = 0;
 
-    while( temp != end || !qCell.empty() )
+    while( temp != end && !qCell.empty() )
     {
         for( auto voisin : temp->getVoisins() )
         {
