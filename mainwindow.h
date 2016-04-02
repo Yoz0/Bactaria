@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include "gameview.h"
 #include "hexacellboard.h"
+#include "ia.h"
 
 class MainWindow : public QWidget
 {
@@ -39,6 +40,7 @@ private:
     GameView*       gameView;
     HexaCellBoard*  hexaCellBoard;
     HexaCell*       selectedCell;
+    IA*             ia;
 
     static MainWindow*     singleton;
     static bool     isInstanced;
