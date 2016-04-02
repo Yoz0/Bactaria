@@ -41,7 +41,8 @@ HexaCell* IA::closestCell(HexaCell* startCell)
     int i,j;
     HexaCell* currenthc;
     HexaCell* closehc;
-    list<HexaCell*> currentlist, smalllist;
+    list<HexaCell*>* currentlist;
+    list<HexaCell*>* smalllist;
     for(i = 0; i < playingBoard->getWidth(); i++ ){
         for(j = 0; j<playingBoard->getHeight(); j++){
             currenthc = playingBoard->getHexaCell(i,j);
@@ -51,7 +52,7 @@ HexaCell* IA::closestCell(HexaCell* startCell)
                     smalllist = currentlist;
                     closehc = currenthc;
                 }
-                if (currentlist.size() < smalllist.size()){
+                if (currentlist->size() < smalllist->size()){
                     smalllist = currentlist;
                     closehc = currenthc;
                 }
