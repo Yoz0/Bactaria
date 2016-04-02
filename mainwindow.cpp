@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include <list>
+#include "hexacell.h"
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -23,6 +25,7 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
     hexaCellBoard->setupBoard(this->scene);
+    selectedCell = nullptr;
 
     startTimer(500);   // 1/2-second timer
     started = true;
@@ -56,17 +59,36 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
 void MainWindow::newSelectedCell(HexaCell *hc)
 {
-    if (selectedCell == NULL)
+    if (selectedCell == nullptr && hc->getPlayerID() == 0)
     {
+        std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
     }
-    else
+    else if (selectedCell != nullptr)
     {
-        int popToMove = selectedCell->getPopulation() / 2;
-        selectedCell->setPopulation(selectedCell->getPopulation() - popToMove);
-        hc->setPopulation(popToMove+hc->getPopulation());
-        selectedCell = NULL;
+
+        std::cout<<"avant dijkstra"<<std::endl;
+        list<HexaCell*>* c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
+
+        if (c != nullptr)
+        {
+            std::cout<<"pointeur non nul"<<std::endl;
+            movePopulation( c );
+        }
+        else
+        {
+        std::cout<<"nul"<<std::endl;
+        }
+
+        selectedCell = nullptr;
     }
+}
+
+void MainWindow::movePopulation(std::list<HexaCell*>* cellPath )
+{
+    int popToMove = (cellPath->front())->getPopulation() / 2;
+    (cellPath->back())->setPopulation((cellPath->back())->getPopulation() - popToMove);
+    (cellPath->front())->setPopulation((cellPath->front())->getPopulation() + popToMove);
 }
 
 bool MainWindow::maybeClose() //Confirm close event

@@ -31,6 +31,9 @@ public:
     void timerEvent(QTimerEvent *event);
 
     void newSelectedCell(HexaCell* hc);
+
+    void movePopulation(list<HexaCell*>* cellPath );
+
 protected:
     void closeEvent(QCloseEvent *event);
 
