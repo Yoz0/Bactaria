@@ -111,12 +111,15 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
     }
 
     qCell.push(start);
-    HexaCell* temp = start;
+    HexaCell* temp;
 
     boardDistance[start->getIndexLine()][start->getIndexColumn()] = 0;
+    bool endFind = false;
 
-    while( temp != end && !qCell.empty() )
+    while( !qCell.empty() && !endFind)
     {
+        temp = qCell.front();
+        qCell.pop();
         for( auto voisin : temp->getVoisins() )
         {
             if( boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] == -2
@@ -125,10 +128,12 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
                 qCell.push( board[voisin->getIndexLine()][voisin->getIndexColumn()] );
                 boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] = 1 + boardDistance[temp->getIndexLine()][temp->getIndexColumn()];
             }
+            if( voisin == end )
+            {
+                boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] = 1 + boardDistance[temp->getIndexLine()][temp->getIndexColumn()];
+                endFind = true;
+            }
         }
-
-        qCell.pop();
-        temp = qCell.front();
     }
 
     if( temp != end )
