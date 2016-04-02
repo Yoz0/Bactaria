@@ -25,11 +25,8 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
     hexaCellBoard->setupBoard(this->scene);
-<<<<<<< HEAD
     selectedCell = nullptr;
-=======
     ia = new IA(hexaCellBoard,2);
->>>>>>> a668e83357492c3b5925b0701ccaa8ca55cd9e19
 
     startTimer(1000);   // 1/2-second timer
     started = true;
