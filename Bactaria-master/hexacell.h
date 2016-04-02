@@ -2,9 +2,6 @@
 #define HEXACELL_H
 #include <QGraphicsPolygonItem>
 #include <QColor>
-#include <list>
-
-using namespace std;
 
 enum CellType
 {
@@ -23,8 +20,6 @@ private:
     CellType    type;
     bool        mouseHover;
 
-    list<HexaCell*> voisins;
-
 public:
     static const int   hexaSize = 20;
 
@@ -39,8 +34,6 @@ public:
     CellType getCellType() const { return type; }
     int getPopulation() const { return population; }
     void setPopulation(int pop) { population = pop; }
-    list<HexaCell *> getVoisins() const { return voisins; }
-    void setNewVoisin(HexaCell* v) { voisins.push_back(v); }
 
     //override methods
     QPainterPath shape() const;
@@ -48,15 +41,15 @@ public:
 
     //GameAction
     void growing();
-/*
+
 signals:
     void rightClicked();
-*/
+
 protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-//    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 
 };

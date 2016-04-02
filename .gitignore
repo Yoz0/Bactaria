@@ -1,2 +1,4 @@
 *.autosave
 Bactaria.pro.user
+*.o
+Makefile

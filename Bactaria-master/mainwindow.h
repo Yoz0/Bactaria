@@ -30,7 +30,6 @@ public:
 
     void timerEvent(QTimerEvent *event);
 
-    void newSelectedCell(HexaCell* hc);
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -38,7 +37,6 @@ private:
     QGraphicsScene* scene;
     GameView*       gameView;
     HexaCellBoard*  hexaCellBoard;
-    HexaCell*       selectedCell;
 
     static MainWindow*     singleton;
     static bool     isInstanced;
