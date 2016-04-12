@@ -55,7 +55,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     if(started)
     {
         this->hexaCellBoard->cellGrowing();
-        this->ia->action();
+        //this->ia->action();
     }
 }
 
@@ -70,9 +70,9 @@ void MainWindow::newSelectedCell(HexaCell *hc)
     {
 
         std::cout<<"avant dijkstra"<<std::endl;
-        list<HexaCell*>* c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
+        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
 
-        if (c != nullptr)
+        if (!c.empty())
         {
             std::cout<<"pointeur non nul"<<std::endl;
             movePopulation( c );
@@ -85,11 +85,11 @@ void MainWindow::newSelectedCell(HexaCell *hc)
     }
 }
 
-void MainWindow::movePopulation(std::list<HexaCell*>* cellPath )
+void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
 {
-    int popToMove = (cellPath->front())->getPopulation() / 2;
-    (cellPath->back())->setPopulation((cellPath->back())->getPopulation() - popToMove);
-    (cellPath->front())->setPopulation((cellPath->front())->getPopulation() + popToMove);
+    int popToMove = (cellPath.front())->getPopulation() / 2;
+    (cellPath.back())->setPopulation((cellPath.back())->getPopulation() + popToMove);
+    (cellPath.front())->setPopulation((cellPath.front())->getPopulation() - popToMove);
 }
 
 bool MainWindow::maybeClose() //Confirm close event

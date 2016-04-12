@@ -33,7 +33,7 @@ public:
     //GameAction
     void setupBoard( QGraphicsScene* scene );
     void cellGrowing();
-    list<HexaCell*>* dijkstra(HexaCell* start, HexaCell* end, int idPlayer);
+    list<HexaCell*> dijkstra(HexaCell* start, HexaCell* end, int idPlayer);
 };
 
 #endif // HEXACELLBOARD_H

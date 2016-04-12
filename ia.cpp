@@ -10,7 +10,7 @@ IA::IA(HexaCellBoard* hcb, int PID)
 void IA::action()
 {
     HexaCell* startCell = biggestCell();
-    list<HexaCell*>* cellPath = closestCell(startCell);
+    list<HexaCell*> cellPath = closestCell(startCell);
     /*
     if (cellPath==nullptr){
         std::cout<<"List is empty !"<<std::endl;
@@ -46,22 +46,22 @@ HexaCell* IA::biggestCell()
     return bighc;
 }
 
-list<HexaCell*>* IA::closestCell(HexaCell* startCell)
+list<HexaCell*> IA::closestCell(HexaCell* startCell)
 {
     int i,j;
     HexaCell* currenthc;
-    list<HexaCell*>* currentlist;
-    list<HexaCell*>* smalllist;
+    list<HexaCell*> currentlist;
+    list<HexaCell*> smalllist;
     for(i = 0; i < playingBoard->getWidth(); i++ ){
         for(j = 0; j<playingBoard->getHeight(); j++){
             currenthc = playingBoard->getHexaCell(i,j);
             if (currenthc->getPlayerID() != myPID){
                 currentlist = playingBoard->dijkstra(startCell, currenthc, myPID);
-                if (currentlist != nullptr){
-                    if (smalllist == nullptr ){
+                if ( currentlist.empty()){
+                    if ( !smalllist.empty() ){
                         smalllist = currentlist;
                     }
-                    if (currentlist->size() < smalllist->size()){
+                    if (currentlist.size() < smalllist.size()){
                         smalllist = currentlist;
                     }
                 }

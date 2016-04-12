@@ -2,6 +2,7 @@
 
 #include <queue>
 #include <math.h>
+#include <iostream>
 
 #include "mainwindow.h"
 
@@ -18,12 +19,12 @@ HexaCellBoard::~HexaCellBoard()
 
 void HexaCellBoard::setupBoard(QGraphicsScene *scene)
 {
-    this->board.resize(width);
+    this->board.resize(height);
 
-    for(int i = 0 ; i < width ; i ++)
+    for(int i = 0 ; i < height ; i ++)
     {
-        this->board[i].resize(height);
-        for(int j = 0 ; j < height ; j ++)
+        this->board[i].resize(width);
+        for(int j = 0 ; j < width ; j ++)
         {
             if( i == 0 && j == 0)
             {
@@ -51,7 +52,7 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene)
         }
     }
 
-    for(int i = 0 ; i < width ; i ++)
+    for(int i = 0 ; i < height ; i ++)
     {
         for(int j = 0 ; j < width ; j ++)
         {
@@ -61,17 +62,17 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene)
             if( j-1 >= 0 && board[i][j-1] != nullptr ) // i j-1
                 board[i][j]->setNewVoisin( board[i][j-1] );
 
-            if ( i-1 >= 0 && j-1 >= 0 && board[i-1][j-1] != nullptr ) // i-1 j-1
-                board[i][j]->setNewVoisin( board[i-1][j-1] );
+            if ( i-1 >= 0 && j+1 < width && board[i-1][j+1] != nullptr ) // i-1 j+1
+                board[i][j]->setNewVoisin( board[i-1][j+1] );
 
-            if ( i+1 < width && board[i+1][j] != nullptr ) // i+1 j
+            if ( i+1 < height && board[i+1][j] != nullptr ) // i+1 j
                 board[i][j]->setNewVoisin( board[i+1][j] );
 
-            if ( j+1 < height && board[i][j+1] != nullptr ) // i j+1
+            if ( j+1 < width && board[i][j+1] != nullptr ) // i j+1
                 board[i][j]->setNewVoisin( board[i][j+1] );
 
-            if ( i+1 < width && j+1 < height && board[i][j+1] != nullptr) // i+1 j+1
-                board[i][j]->setNewVoisin( board[i+1][j+1] );
+            if ( i+1 < height && j-1 >= 0 && board[i+1][j-1] != nullptr) // i+1 j-1
+                board[i][j]->setNewVoisin( board[i+1][j-1] );
         }
     }
 
@@ -90,10 +91,20 @@ void HexaCellBoard::cellGrowing()
     }
 }
 
-
-list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
+bool pasFini( vector<vector<bool>> tab)
 {
-    if( start == nullptr || end == nullptr )
+    for( auto i : tab )
+        for ( auto j : i )
+            if ( j == false )
+                return true;
+    return false;
+}
+
+list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
+{
+    /*Truc nul d'Alexian...
+     *
+     * if( start == nullptr || end == nullptr )
         return nullptr;
 
     vector<vector<int>> boardDistance(width, vector<int>(height) );
@@ -136,12 +147,12 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
         }
     }
 
-    if( temp != end )
+    if( endFind == false ){
         return nullptr;
-
-    list<HexaCell*>* ret;
+    }
+    std::list<HexaCell*>* ret = new std::list<HexaCell*>();
     temp = end;
-    ret->push_back(end);
+    ret->push_front(end);
 
     HexaCell* temp2;
     int value;
@@ -159,8 +170,80 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
             }
         }
         temp2 = temp;
-        ret->push_back(temp);
+        ret->push_front(temp);
     }
 
+    std::cout << "dijkstra fini !" << std::endl;
     return ret;
+    */
+     vector<vector<bool>> markedCells(height, vector<bool>(width) );
+     vector<vector<int>> distanceBoard(height, vector<int>(width) );
+
+     //initialisation
+     int i, j;
+     for (i=0;i<height;i++)
+     {
+         for (j=0;j<width;j++)
+         {
+            if (board[i][j]->getPlayerID() != idPlayer)
+                  markedCells[i][j]=true;
+            else
+                  markedCells[i][j]=false;
+             distanceBoard[i][j]=1000;
+         }
+     }
+     distanceBoard[start->getIndexLine()][start->getIndexColumn()] = 0;
+
+     int iMin, jMin, min=1000;
+     while (pasFini(markedCells))
+     {
+         min = 10000000;
+         for (i=0;i<height;i++)
+         {
+             for (j=0;j<width;j++)
+             {
+                if (distanceBoard[i][j] < min && !markedCells[i][j])
+                {
+                    iMin = i;
+                    jMin = j;
+                    min = distanceBoard[i][j];
+                }
+             }
+         }
+
+         list<HexaCell*> voisins = board[iMin][jMin]->getVoisins();
+         for (auto voisin : voisins )
+         {
+             if (min+1 < distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()])
+             {
+                 distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()] = min +1;
+             }
+         }
+         markedCells[iMin][jMin] = true;
+     }
+
+     HexaCell* temp = end;
+
+     list<HexaCell *> ret;
+
+     ret.push_back(end);
+
+     while( temp != start )
+     {
+         min = 1000;
+         for( auto voisin : temp->getVoisins() )
+         {
+            if (distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()] < min)
+            {
+                min=distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()];
+                iMin = voisin->getIndexLine();
+                jMin = voisin->getIndexColumn();
+            }
+         }
+         temp = board[iMin][jMin];
+         ret.push_front(temp);
+     }
+     return ret;
 }
+
+
