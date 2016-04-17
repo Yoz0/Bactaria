@@ -11,17 +11,35 @@
 #include <QIODevice>
 #include <QTextStream>
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param scene [description]
+ */
 HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
 {
     //width= 4;
     //height = 4;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * @return [description]
+ */
 HexaCellBoard::~HexaCellBoard()
 {
 
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param scene [description]
+ * @param f [description]
+ */
 void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
 {
     QFile file( QString::fromStdString(f) );
@@ -88,6 +106,12 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
 
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param r [description]
+ */
 void HexaCellBoard::cellGrowing()
 {
     for( auto c : playerCells )
@@ -101,6 +125,13 @@ void HexaCellBoard::cellGrowing()
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param tab [description]
+ * @return [description]
+ */
 bool pasFini( vector<vector<bool>> tab)
 {
     for( auto i : tab )
@@ -110,6 +141,15 @@ bool pasFini( vector<vector<bool>> tab)
     return false;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param start [description]
+ * @param end [description]
+ * @param idPlayer [description]
+ * @return [description]
+ */
 list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
 {
      vector<vector<bool>> markedCells(height, vector<bool>(width) );

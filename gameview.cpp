@@ -4,6 +4,12 @@
 #include <math.h>
 #include <iostream>
 
+/**
+ * @brief [Constructeur GameView]
+ * @details [long description]
+ * 
+ * @param parent [Le widget parent]
+ */
 GameView::GameView(QWidget* parent)
 {
     // set up the screen

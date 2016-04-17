@@ -6,6 +6,16 @@
 
 using namespace std;
 
+/**
+ * @brief [Constructeur HexaCell]
+ * @details [long description]
+ * 
+ * @param i [Index colonne]
+ * @param j [Index ligne]
+ * @param pID [ID joueu]r
+ * @param ct [Type de cellule]
+ * @param pop [Population de départ]
+ */
 HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     : indexCol(i),
       indexLine(j),
@@ -34,11 +44,20 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
 
 }
 
+/**
+ * @brief [Destructeur HexaCell]
+ * @details [long description]
+ */
 HexaCell::~HexaCell()
 {
 
 }
 
+/**
+ * @brief [Méthode shape]
+ * @details [long description]
+ * @return [retourne un QPainterPath]
+ */
 QPainterPath HexaCell::shape() const
 {
     QPainterPath path;
@@ -46,6 +65,14 @@ QPainterPath HexaCell::shape() const
     return path;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param painter [description]
+ * @param option [description]
+ * @param widget [description]
+ */
 void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setRenderHint(QPainter::Antialiasing);
@@ -93,18 +120,29 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         painter->drawText( this->boundingRect(), Qt::AlignCenter, QString::number( this->population ) );
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ */
 void HexaCell::growing()
 {
     this->population+= 1;
     this->update();
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param event [description]
+ */
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
     MainWindow::getInstance()->newSelectedCell(this);
     this->update();
 }
+
 /*
 void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {

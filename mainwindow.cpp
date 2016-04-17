@@ -6,6 +6,12 @@
 bool MainWindow::isInstanced = false;
 MainWindow* MainWindow::singleton;
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param parent [description]
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -21,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
     selectedCell = nullptr;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param e [description]
+ */
 void MainWindow::start()
 {
     scene = new QGraphicsScene();
@@ -37,6 +49,12 @@ void MainWindow::start()
     started = true;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param event [description]
+ */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (maybeClose())
@@ -49,12 +67,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ */
 void MainWindow::restart()
 {
     // clear some stuff then call start()
 
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param event [description]
+ */
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     if(started)
@@ -64,6 +92,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param hc [description]
+ */
 void MainWindow::newSelectedCell(HexaCell *hc)
 {
     if (selectedCell == nullptr && hc->getPlayerID() == 0)
@@ -90,6 +124,12 @@ void MainWindow::newSelectedCell(HexaCell *hc)
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param cellPath [description]
+ */
 void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
 {
     int popToMove = (cellPath.front())->getPopulation() / 2;
@@ -97,6 +137,11 @@ void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
     (cellPath.front())->setPopulation((cellPath.front())->getPopulation() - popToMove);
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * @return [description]
+ */
 bool MainWindow::maybeClose() //Confirm close event
 {
    QMessageBox msgBox;

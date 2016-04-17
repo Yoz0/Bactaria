@@ -1,12 +1,26 @@
 #include "ia.h"
 #include <iostream>
 #include "mainwindow.h"
+
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param hcb [description]
+ * @param PID [description]
+ */
 IA::IA(HexaCellBoard* hcb, int PID)
 {
     playingBoard = hcb;
     myPID = PID;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param startCell [description]
+ */
 void IA::action()
 {
     HexaCell* startCell = biggestCell();
@@ -24,6 +38,11 @@ void IA::action()
     //std::cout<<"startCell : "<<startCell->getIndexLine()<<" ; "<<startCell->getIndexColumn()<<" lastCell : "<<lastCell->getIndexLine()<<" ; "<<lastCell->getIndexColumn()<<std::endl;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * @return [description]
+ */
 HexaCell* IA::biggestCell()
 {
     int i,j;
@@ -46,6 +65,13 @@ HexaCell* IA::biggestCell()
     return bighc;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param startCell [description]
+ * @return [description]
+ */
 list<HexaCell*> IA::closestCell(HexaCell* startCell)
 {
     int i,j;
