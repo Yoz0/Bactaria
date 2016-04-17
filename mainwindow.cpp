@@ -1,5 +1,10 @@
 #include "mainwindow.h"
+#include <list>
+#include "hexacell.h"
 #include <iostream>
+
+bool MainWindow::isInstanced = false;
+MainWindow* MainWindow::singleton;
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -23,9 +28,12 @@ void MainWindow::start()
     hexaCellBoard = new HexaCellBoard(this->scene);
     gameView->setScene(scene);
     gameView->setParent(this);
-    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
 
-    startTimer(500);   // 1/2-second timer
+    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
+    selectedCell = nullptr;
+    ia = new IA(hexaCellBoard,2);
+
+    startTimer(1000);   // 1/2-second timer
     started = true;
 }
 
@@ -52,22 +60,41 @@ void MainWindow::timerEvent(QTimerEvent *event)
     if(started)
     {
         this->hexaCellBoard->cellGrowing();
+        //this->ia->action();
     }
 }
 
 void MainWindow::newSelectedCell(HexaCell *hc)
 {
-    if (selectedCell == NULL)
+    if (selectedCell == nullptr && hc->getPlayerID() == 0)
     {
+        std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
     }
-    else
+    else if (selectedCell != nullptr)
     {
-        int popToMove = selectedCell->getPopulation() / 2;
-        selectedCell->setPopulation(selectedCell->getPopulation() - popToMove);
-        hc->setPopulation(popToMove+hc->getPopulation());
-        selectedCell = NULL;
+
+        std::cout<<"avant dijkstra"<<std::endl;
+        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
+
+        if (!c.empty())
+        {
+            std::cout<<"pointeur non nul"<<std::endl;
+            movePopulation( c );
+        }
+        else
+        {
+        std::cout<<"nul"<<std::endl;
+        }
+        selectedCell = nullptr;
     }
+}
+
+void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
+{
+    int popToMove = (cellPath.front())->getPopulation() / 2;
+    (cellPath.back())->setPopulation((cellPath.back())->getPopulation() + popToMove);
+    (cellPath.front())->setPopulation((cellPath.front())->getPopulation() - popToMove);
 }
 
 bool MainWindow::maybeClose() //Confirm close event
@@ -89,6 +116,3 @@ bool MainWindow::maybeClose() //Confirm close event
         }
     return true;
 }
-
-bool MainWindow::isInstanced = false;
-MainWindow* MainWindow::singleton;

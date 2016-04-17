@@ -1,5 +1,6 @@
 #include "ia.h"
 #include <iostream>
+#include "mainwindow.h"
 IA::IA(HexaCellBoard* hcb, int PID)
 {
     playingBoard = hcb;
@@ -9,10 +10,18 @@ IA::IA(HexaCellBoard* hcb, int PID)
 void IA::action()
 {
     HexaCell* startCell = biggestCell();
-    HexaCell* endCell = closestCell(startCell);
-    //TODO: launch the action of moving the bactiara from to startCell to endCell
-    std::cout<<"startCell : "<<startCell->getIndexLine()<<" ; "<<startCell->getIndexColumn()<<
-               "\n endCell : "<<endCell->getIndexLine()<<" ; "<<endCell->getIndexColumn()<<std::endl;
+    list<HexaCell*> cellPath = closestCell(startCell);
+    /*
+    if (cellPath==nullptr){
+        std::cout<<"List is empty !"<<std::endl;
+    }
+    else {
+        std::cout<<"List is not empty ! "<<cellPath->front()<<std::endl;
+    }
+    */
+    //HexaCell* lastCell = cellPath->back();
+    MainWindow::getInstance()->movePopulation(cellPath);
+    //std::cout<<"startCell : "<<startCell->getIndexLine()<<" ; "<<startCell->getIndexColumn()<<" lastCell : "<<lastCell->getIndexLine()<<" ; "<<lastCell->getIndexColumn()<<std::endl;
 }
 
 HexaCell* IA::biggestCell()
@@ -20,11 +29,12 @@ HexaCell* IA::biggestCell()
     int i,j;
     HexaCell* currenthc;
     HexaCell* bighc;
+    std::cout<<"pass"<<std::endl;
     for(i = 0; i < playingBoard->getWidth(); i++ ){
         for(j = 0; j<playingBoard->getHeight(); j++){
             currenthc = playingBoard->getHexaCell(i,j);
             if (currenthc->getPlayerID() == myPID){
-                if (bighc == NULL ){
+                if (bighc == nullptr ){
                     bighc = currenthc;
                 }
                 if (bighc->getPopulation() < currenthc->getPopulation()){
@@ -36,28 +46,27 @@ HexaCell* IA::biggestCell()
     return bighc;
 }
 
-HexaCell* IA::closestCell(HexaCell* startCell)
+list<HexaCell*> IA::closestCell(HexaCell* startCell)
 {
     int i,j;
     HexaCell* currenthc;
-    HexaCell* closehc;
-    list<HexaCell*>* currentlist;
-    list<HexaCell*>* smalllist;
+    list<HexaCell*> currentlist;
+    list<HexaCell*> smalllist;
     for(i = 0; i < playingBoard->getWidth(); i++ ){
         for(j = 0; j<playingBoard->getHeight(); j++){
             currenthc = playingBoard->getHexaCell(i,j);
-            currentlist = playingBoard->dijkstra(startCell, currenthc, myPID);
-            if (currentlist != nullptr){
-                if (smalllist == nullptr ){
-                    smalllist = currentlist;
-                    closehc = currenthc;
-                }
-                if (currentlist->size() < smalllist->size()){
-                    smalllist = currentlist;
-                    closehc = currenthc;
+            if (currenthc->getPlayerID() != myPID){
+                currentlist = playingBoard->dijkstra(startCell, currenthc, myPID);
+                if ( currentlist.empty()){
+                    if ( !smalllist.empty() ){
+                        smalllist = currentlist;
+                    }
+                    if (currentlist.size() < smalllist.size()){
+                        smalllist = currentlist;
+                    }
                 }
             }
         }
     }
-    return closehc;
+    return smalllist;
 }

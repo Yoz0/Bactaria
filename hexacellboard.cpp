@@ -1,4 +1,5 @@
 #include "hexacellboard.h"
+#include "mainwindow.h"
 
 #include <queue>
 #include <math.h>
@@ -9,7 +10,6 @@
 #include <QStringList>
 #include <QIODevice>
 #include <QTextStream>
-#include "mainwindow.h"
 
 HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
 {
@@ -101,73 +101,85 @@ void HexaCellBoard::cellGrowing()
     }
 }
 
-
-list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
+bool pasFini( vector<vector<bool>> tab)
 {
-    if( start != nullptr || end != nullptr )
-        return nullptr;
-
-    vector<vector<int>> boardDistance(width, vector<int>(height) );
-    queue<HexaCell*> qCell;
-
-    for(int i=0; i < width; i++)
-    {
-        for(int j=0; j < height; j++)
-        {
-            if( board[i][j] == nullptr )
-                boardDistance[i][j] = -1;
-            else
-                boardDistance[i][j] = -2;
-        }
-    }
-
-    qCell.push(start);
-    HexaCell* temp = start;
-
-    boardDistance[start->getIndexLine()][start->getIndexColumn()] = 0;
-
-    while( temp != end || !qCell.empty() )
-    {
-        for( auto voisin : temp->getVoisins() )
-        {
-            if( boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] == -2
-                    && idPlayer == board[voisin->getIndexLine()][voisin->getIndexColumn()]->getPlayerID() ) // pas case vide et verif id
-            {
-                qCell.push( board[voisin->getIndexLine()][voisin->getIndexColumn()] );
-                boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] = 1 + boardDistance[temp->getIndexLine()][temp->getIndexColumn()];
-            }
-            //todo: dernier pas forcèment du même idée
-        }
-
-        qCell.pop();
-        temp = qCell.front();
-    }
-
-    if( temp != end )
-        return nullptr;
-
-    list<HexaCell*>* ret;
-    temp = end;
-    ret->push_back(end);
-
-    HexaCell* temp2;
-    int value;
-
-    while( temp != start )
-    {
-        value = 1000;
-        for( auto voisin : temp->getVoisins() )
-        {
-            if( boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] < value
-                    && boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] == -2)
-            {
-                temp2 = voisin;
-                value = boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()];
-            }
-        }
-        temp2 = temp;
-        ret->push_back(temp);
-    }
-
-    return ret;
+    for( auto i : tab )
+        for ( auto j : i )
+            if ( j == false )
+                return true;
+    return false;
 }
+
+list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
+{
+     vector<vector<bool>> markedCells(height, vector<bool>(width) );
+     vector<vector<int>> distanceBoard(height, vector<int>(width) );
+
+     //initialisation
+     int i, j;
+     for (i=0;i<height;i++)
+     {
+         for (j=0;j<width;j++)
+         {
+            if (board[i][j]->getPlayerID() != idPlayer)
+                  markedCells[i][j]=true;
+            else
+                  markedCells[i][j]=false;
+             distanceBoard[i][j]=1000;
+         }
+     }
+     distanceBoard[start->getIndexLine()][start->getIndexColumn()] = 0;
+
+     int iMin, jMin, min=1000;
+     while (pasFini(markedCells))
+     {
+         min = 10000000;
+         for (i=0;i<height;i++)
+         {
+             for (j=0;j<width;j++)
+             {
+                if (distanceBoard[i][j] < min && !markedCells[i][j])
+                {
+                    iMin = i;
+                    jMin = j;
+                    min = distanceBoard[i][j];
+                }
+             }
+         }
+
+         list<HexaCell*> voisins = board[iMin][jMin]->getVoisins();
+         for (auto voisin : voisins )
+         {
+             if (min+1 < distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()])
+             {
+                 distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()] = min +1;
+             }
+         }
+         markedCells[iMin][jMin] = true;
+     }
+
+     HexaCell* temp = end;
+
+     list<HexaCell *> ret;
+
+     ret.push_back(end);
+
+     while( temp != start )
+     {
+         min = 1000;
+         for( auto voisin : temp->getVoisins() )
+         {
+            if (distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()] < min)
+            {
+                min=distanceBoard[voisin->getIndexColumn()][voisin->getIndexLine()];
+                iMin = voisin->getIndexLine();
+                jMin = voisin->getIndexColumn();
+            }
+         }
+         temp = board[iMin][jMin];
+         ret.push_front(temp);
+     }
+     return ret;
+}
+
+

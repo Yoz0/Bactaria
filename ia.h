@@ -10,7 +10,7 @@ private:
     HexaCellBoard* playingBoard;
     int myPID;
     HexaCell* biggestCell();
-    HexaCell* closestCell(HexaCell* startCell);
+    list<HexaCell*> closestCell(HexaCell* startCell);
 };
 
 #endif // IA_H
