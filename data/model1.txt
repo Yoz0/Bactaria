@@ -1,5 +1,5 @@
 8 4 		// largeur puis hauteur
-0 3 1 0 10 	// i j id(0 neutre, 1 player, 2 ia) pop type(0 neutre, 1 farm)
+0 3 1 0 10 	// i j id(0 neutre, 1 player, 2 ia) type(0 neutre, 1 farm) pop
 1 2 0 0 10 	
 2 1 0 0 10 
 3 0 0 0 10 

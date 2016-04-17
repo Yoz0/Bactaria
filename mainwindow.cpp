@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     started = false;
     this->start();
+    selectedCell = nullptr;
 }
 
 void MainWindow::start()
@@ -22,7 +23,7 @@ void MainWindow::start()
     hexaCellBoard = new HexaCellBoard(this->scene);
     gameView->setScene(scene);
     gameView->setParent(this);
-    hexaCellBoard->setupBoard(this->scene);
+    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
 
     startTimer(500);   // 1/2-second timer
     started = true;

@@ -2,13 +2,19 @@
 
 #include <queue>
 #include <math.h>
-
+#include <string>
+#include <iostream>
+#include <QString>
+#include <QFile>
+#include <QStringList>
+#include <QIODevice>
+#include <QTextStream>
 #include "mainwindow.h"
 
 HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
 {
-    width= 4;
-    height = 4;
+    //width= 4;
+    //height = 4;
 }
 
 HexaCellBoard::~HexaCellBoard()
@@ -16,62 +22,67 @@ HexaCellBoard::~HexaCellBoard()
 
 }
 
-void HexaCellBoard::setupBoard(QGraphicsScene *scene)
+void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
 {
-    this->board.resize(width);
-
-    for(int i = 0 ; i < width ; i ++)
+    QFile file( QString::fromStdString(f) );
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        this->board[i].resize(height);
-        for(int j = 0 ; j < height ; j ++)
-        {
-            if( i == 0 && j == 0)
-            {
-                HexaCell* hc = new HexaCell(i,j,1,NORMAL,10);
-                hc->setPos(hc->hexaSize*3/2*i,hc->hexaSize*sqrt(3.0)*(i/2.0+j));
-                scene->addItem(hc);
-                board[i][j] = hc;
-                playerCells.push_back(hc);
-            }
-            else if ( i == 3 && j == 3)
-            {
-                HexaCell* hc = new HexaCell(i,j,2,NORMAL,10);
-                hc->setPos(hc->hexaSize*3/2*i,hc->hexaSize*sqrt(3.0)*(i/2.0+j));
-                scene->addItem(hc);
-                board[i][j] = hc;
-                botCells.push_back(hc);
-            }
-            else
-            {
-                HexaCell* hc = new HexaCell(i,j,0,NORMAL,10);
-                hc->setPos(hc->hexaSize*3/2*i,hc->hexaSize*sqrt(3.0)*(i/2.0+j));
-                scene->addItem(hc);
-                board[i][j] = hc;
-            }
-        }
+        std::cerr << "Error in HexaCellBoard::setupBoard, read board from file : " << f << std::endl;
+        return;
     }
 
+    QTextStream in(&file);
+    QString line = in.readLine();
+    QStringList list = line.split(' ');
+    width = list.at(0).toInt();
+    height = list.at(1).toInt();
+
+    // on resize board
+    this->board.resize(width);
+    for(int i=0; i<board.size(); i++)
+        board[i].resize(height);
+
+    // on lit chaque ligne
+    while (!in.atEnd()) {
+        line = in.readLine();
+        list = line.split(' ');
+
+        HexaCell* hc = new HexaCell(list.at(0).toInt(),
+                                    list.at(1).toInt(),
+                                    list.at(2).toInt(),
+                                    static_cast<CellType>( list.at(3).toInt() ),
+                                    list.at(4).toInt());
+        hc->setPos(hc->hexaSize*3/2*list.at(0).toInt(),hc->hexaSize*sqrt(3.0)*(list.at(0).toInt()/2.0+list.at(1).toInt()));
+        scene->addItem(hc);
+        board[list.at(0).toInt()][list.at(1).toInt()] = hc;
+        playerCells.push_back(hc);
+    }
+
+    // Les voisins de chaques hexacell
     for(int i = 0 ; i < width ; i ++)
     {
-        for(int j = 0 ; j < width ; j ++)
+        for(int j = 0 ; j < height ; j ++)
         {
-            if( i-1 >= 0 && board[i-1][j] != nullptr ) // i-1 j
-                board[i][j]->setNewVoisin( board[i-1][j] );
+            if( board[i][j] != nullptr )
+            {
+                if( i-1 >= 0 && board[i-1][j] != nullptr ) // i-1 j
+                    board[i][j]->setNewVoisin( board[i-1][j] );
 
-            if( j-1 >= 0 && board[i][j-1] != nullptr ) // i j-1
-                board[i][j]->setNewVoisin( board[i][j-1] );
+                if( j-1 >= 0 && board[i][j-1] != nullptr ) // i j-1
+                    board[i][j]->setNewVoisin( board[i][j-1] );
 
-            if ( i-1 >= 0 && j-1 >= 0 && board[i-1][j-1] != nullptr ) // i-1 j-1
-                board[i][j]->setNewVoisin( board[i-1][j-1] );
+                if ( i+1 < width && j-1 >= 0 && board[i+1][j-1] != nullptr ) // i+1 j-1
+                    board[i][j]->setNewVoisin( board[i+1][j-1] );
 
-            if ( i+1 < width && board[i+1][j] != nullptr ) // i+1 j
-                board[i][j]->setNewVoisin( board[i+1][j] );
+                if ( i+1 < width && board[i+1][j] != nullptr ) // i+1 j
+                    board[i][j]->setNewVoisin( board[i+1][j] );
 
-            if ( j+1 < height && board[i][j+1] != nullptr ) // i j+1
-                board[i][j]->setNewVoisin( board[i][j+1] );
+                if ( j+1 < height && board[i][j+1] != nullptr ) // i j+1
+                    board[i][j]->setNewVoisin( board[i][j+1] );
 
-            if ( i+1 < width && j+1 < height && board[i][j+1] != nullptr) // i+1 j+1
-                board[i][j]->setNewVoisin( board[i+1][j+1] );
+                if ( i-1 >= 0 && j+1 < height && board[i-1][j+1] != nullptr) // i-1 j+1
+                    board[i][j]->setNewVoisin( board[i-1][j+1] );
+            }
         }
     }
 
@@ -125,6 +136,7 @@ list<HexaCell*>* HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idP
                 qCell.push( board[voisin->getIndexLine()][voisin->getIndexColumn()] );
                 boardDistance[voisin->getIndexLine()][voisin->getIndexColumn()] = 1 + boardDistance[temp->getIndexLine()][temp->getIndexColumn()];
             }
+            //todo: dernier pas forcèment du même idée
         }
 
         qCell.pop();

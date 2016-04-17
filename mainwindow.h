@@ -31,6 +31,7 @@ public:
     void timerEvent(QTimerEvent *event);
 
     void newSelectedCell(HexaCell* hc);
+
 protected:
     void closeEvent(QCloseEvent *event);
 
