@@ -73,7 +73,10 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
         hc->setPos(hc->hexaSize*3/2*list.at(0).toInt(),hc->hexaSize*sqrt(3.0)*(list.at(0).toInt()/2.0+list.at(1).toInt()));
         scene->addItem(hc);
         board[list.at(0).toInt()][list.at(1).toInt()] = hc;
-        playerCells.push_back(hc);
+        if (hc->getPlayerID() == 1)
+            playerCells.push_back(hc);
+        else if (hc->getPlayerID() == 2)
+            botCells.push_back(hc);
     }
 
     // Les voisins de chaques hexacell
