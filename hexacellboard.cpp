@@ -246,4 +246,44 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
      return ret;
 }
 
+int HexaCellBoard::winTest()
+{
+    /*Fonction testant si le plateau est gagnant ou perdant. Si le joueur a gagné ( 80% du plateau
+     * conquis ou ia défaite ), cette fonction renvoie 1 ( l'id du joueur). Si l'ia a gagnée ( joueur défait)
+     * elle renvoie 2. Sinon, elle renvoie 0 et la partie peut continuer.
+     *
+     * Cette fonction est adaptée à la présence de cases "vides" dans le plateau.
+     *
+     * */
+
+    int i, j, playerCount,iaCount, neutralCount, res;
+    float somme;
+    for (i=0;i<height;i++)
+    {
+        for (j=0;j<width; j++)
+        {
+            if (board[i][j]->getPlayerID() == 1)
+                playerCount++;
+            else if (board[i][j]->getPlayerID() == 2)
+                iaCount++;
+            else if (board[i][j]->getPlayerID() == 0)
+                neutralCount++;
+        }
+    }
+    somme = playerCount + iaCount + neutralCount;
+    if (playerCount/somme > 0.8 || iaCount == 0)
+    {
+        res = 1;
+    }
+    else if (playerCount == 0)
+    {
+        res = 2;
+    }
+    else
+    {
+        res = 0;
+    }
+    return res;
+}
+
 
