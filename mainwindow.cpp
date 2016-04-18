@@ -3,6 +3,15 @@
 #include "hexacell.h"
 #include <iostream>
 
+bool MainWindow::isInstanced = false;
+MainWindow* MainWindow::singleton;
+
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param parent [description]
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -15,8 +24,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     started = false;
     this->start();
+    selectedCell = nullptr;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param e [description]
+ */
 void MainWindow::start()
 {
     scene = new QGraphicsScene();
@@ -24,7 +40,8 @@ void MainWindow::start()
     hexaCellBoard = new HexaCellBoard(this->scene);
     gameView->setScene(scene);
     gameView->setParent(this);
-    hexaCellBoard->setupBoard(this->scene);
+
+    hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
     selectedCell = nullptr;
     ia = new IA(hexaCellBoard,2);
 
@@ -32,6 +49,12 @@ void MainWindow::start()
     started = true;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param event [description]
+ */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (maybeClose())
@@ -44,12 +67,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ */
 void MainWindow::restart()
 {
     // clear some stuff then call start()
 
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param event [description]
+ */
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     if(started)
@@ -59,9 +92,15 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param hc [description]
+ */
 void MainWindow::newSelectedCell(HexaCell *hc)
 {
-    if (selectedCell == nullptr && hc->getPlayerID() == 0)
+    if (selectedCell == nullptr && hc->getPlayerID() == 1)
     {
         std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
@@ -70,21 +109,28 @@ void MainWindow::newSelectedCell(HexaCell *hc)
     {
 
         std::cout<<"avant dijkstra"<<std::endl;
-        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
+        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 1);
+        std::cout<<"apres dijkstra"<<std::endl;
 
         if (!c.empty())
         {
-            std::cout<<"pointeur non nul"<<std::endl;
-            movePopulation( c );
+            std::cout<<"liste non vide"<<std::endl;
+            movePopulation(c);
         }
         else
         {
-        std::cout<<"nul"<<std::endl;
+            std::cout<<"liste vide"<<std::endl;
         }
         selectedCell = nullptr;
     }
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * 
+ * @param cellPath [description]
+ */
 void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
 {
     int popToMove = (cellPath.front())->getPopulation() / 2;
@@ -92,6 +138,11 @@ void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
     (cellPath.front())->setPopulation((cellPath.front())->getPopulation() - popToMove);
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ * @return [description]
+ */
 bool MainWindow::maybeClose() //Confirm close event
 {
    QMessageBox msgBox;
@@ -111,6 +162,3 @@ bool MainWindow::maybeClose() //Confirm close event
         }
     return true;
 }
-
-bool MainWindow::isInstanced = false;
-MainWindow* MainWindow::singleton;

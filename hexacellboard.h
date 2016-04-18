@@ -31,7 +31,7 @@ public:
 
 
     //GameAction
-    void setupBoard( QGraphicsScene* scene );
+    void setupBoard( QGraphicsScene* scene, string f );
     void cellGrowing();
     list<HexaCell*> dijkstra(HexaCell* start, HexaCell* end, int idPlayer);
     int winTest();
