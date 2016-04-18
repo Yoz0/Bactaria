@@ -18,20 +18,14 @@ SOURCES += main.cpp\
     hexacell.cpp \
     gameview.cpp \
     mainwindow.cpp \
-    ia.cpp \
-    menu.cpp
-
+    ia.cpp
 
 HEADERS  += \
     hexacellboard.h \
     hexacell.h \
     gameview.h \
     mainwindow.h \
-    ia.h \
-    menu.h
-
-FORMS += \
-    menu.ui
+    ia.h
 
 OTHER_FILES += \
     README.md
