@@ -28,7 +28,7 @@ void IA::action()
     std::cout<<"cellPath()"<<std::endl;
     list<HexaCell*> cellPath = closestCell(startCell);
     std::cout<<"movePopulation()"<<std::endl;
-    MainWindow::getInstance()->movePopulation(cellPath);
+    MainWindow::getInstance()->movePopulation(cellPath,2);
 }
 
 /**

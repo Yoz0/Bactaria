@@ -39,6 +39,8 @@ public:
     CellType getCellType() const { return type; }
     int getPopulation() const { return population; }
     void setPopulation(int pop) { population = pop; }
+    void incPopulation(int pop) { population += pop; }
+    void decPopulation(int pop) { population -= pop; }
     list<HexaCell *> getVoisins() const { return voisins; }
     void setNewVoisin(HexaCell* v) { voisins.push_back(v); }
 

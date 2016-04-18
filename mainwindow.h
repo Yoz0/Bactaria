@@ -33,7 +33,7 @@ public:
 
     void newSelectedCell(HexaCell* hc);
 
-    void movePopulation(list<HexaCell*> cellPath );
+    void movePopulation(list<HexaCell*> cellPath, int playerID );
 
 protected:
     void closeEvent(QCloseEvent *event);

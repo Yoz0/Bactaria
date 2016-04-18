@@ -115,7 +115,7 @@ void MainWindow::newSelectedCell(HexaCell *hc)
         if (!c.empty())
         {
             std::cout<<"liste non vide"<<std::endl;
-            movePopulation(c);
+            movePopulation(c,1);
         }
         else
         {
@@ -131,11 +131,41 @@ void MainWindow::newSelectedCell(HexaCell *hc)
  * 
  * @param cellPath [description]
  */
-void MainWindow::movePopulation(std::list<HexaCell*> cellPath )
+void MainWindow::movePopulation(std::list<HexaCell*> cellPath, int playerID )
 {
-    int popToMove = (cellPath.front())->getPopulation() / 2;
-    (cellPath.back())->setPopulation((cellPath.back())->getPopulation() + popToMove);
-    (cellPath.front())->setPopulation((cellPath.front())->getPopulation() - popToMove);
+    HexaCell* startCell = cellPath.front();
+    HexaCell* endCell = cellPath.back();
+    int popToMove = (startCell)->getPopulation() / 2;
+    if (playerID != startCell->getPlayerID()){
+        std::cout<<"Erreur, la cellule de départ n'appartient pas au player"<<std::endl;
+        return;
+    }
+    if (endCell->getPlayerID() == playerID)
+    {
+        startCell->decPopulation(popToMove);
+        endCell->incPopulation(popToMove);
+    }
+    else{
+        if (endCell->getPopulation() > popToMove){
+            startCell->decPopulation(popToMove);
+            endCell->decPopulation(popToMove);
+        }
+        else{
+            startCell->decPopulation(popToMove);
+            endCell->setPopulation(popToMove - endCell->getPopulation());
+            if (endCell->getPlayerID() == 1)
+                hexaCellBoard->removePlayerCell(endCell);
+            else if (endCell->getPlayerID() == 2)
+                hexaCellBoard->removeBotCell(endCell);
+
+            if (playerID == 1)
+                hexaCellBoard->addPlayerCell(endCell);
+            if (playerID == 2)
+                hexaCellBoard->addBotCell(endCell);
+
+            endCell->setPlayerID(playerID);
+        }
+    }
 }
 
 /**

@@ -28,7 +28,10 @@ public:
     HexaCell* getHexaCell(int i, int j) { return board[i][j]; }
     int getWidth() { return width;}
     int getHeight() { return height;}
-
+    void addPlayerCell(HexaCell * hc) { playerCells.push_back(hc);}
+    void addBotCell(HexaCell * hc) { botCells.push_back(hc);}
+    void removePlayerCell(HexaCell* hc) { playerCells.remove(hc);}
+    void removeBotCell(HexaCell* hc) { botCells.remove(hc);}
 
     //GameAction
     void setupBoard( QGraphicsScene* scene, string f );
