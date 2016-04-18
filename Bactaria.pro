@@ -28,4 +28,5 @@ HEADERS  += \
     ia.h
 
 OTHER_FILES += \
-    README.md
+    README.md \
+    data/*

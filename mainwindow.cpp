@@ -41,7 +41,7 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
 
-    hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
+    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
     selectedCell = nullptr;
     ia = new IA(hexaCellBoard,2);
 

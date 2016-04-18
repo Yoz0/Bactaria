@@ -60,15 +60,18 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
     while (!in.atEnd()) {
         line = in.readLine();
         list = line.split(' ');
-
-        HexaCell* hc = new HexaCell(list.at(0).toInt(),
-                                    list.at(1).toInt(),
+        int i = list.at(0).toInt();
+        int j = list.at(1).toInt();
+        HexaCell* hc = new HexaCell(i, j,
                                     list.at(2).toInt(),
                                     static_cast<CellType>( list.at(3).toInt() ),
                                     list.at(4).toInt());
-        hc->setPos(hc->hexaSize*3/2*list.at(0).toInt(),hc->hexaSize*sqrt(3.0)*(list.at(0).toInt()/2.0+list.at(1).toInt()));
+
+        hc->setPos(hc->hexaSize*3/2*j,hc->hexaSize*sqrt(3.0)*(j/2.0+i));
         scene->addItem(hc);
-        board[list.at(0).toInt()][list.at(1).toInt()] = hc;
+        board[i][j] = hc;
+
+        // insert into list..
         if (hc->getPlayerID() == 1)
             playerCells.push_back(hc);
         else if (hc->getPlayerID() == 2)
@@ -77,28 +80,34 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
     // Les voisins de chaques hexacell
     for(int i = 0 ; i < height ; i ++)
     {
+        std::cout << std::endl;
         for(int j = 0 ; j < width ; j ++)
         {
+
             if( board[i][j] != nullptr )
             {
+                std::cout<< 1 << " ";
                 if( i-1 >= 0 && board[i-1][j] != nullptr ) // i-1 j
                     board[i][j]->setNewVoisin( board[i-1][j] );
 
                 if( j-1 >= 0 && board[i][j-1] != nullptr ) // i j-1
                     board[i][j]->setNewVoisin( board[i][j-1] );
 
-                if ( i+1 < width && j-1 >= 0 && board[i+1][j-1] != nullptr ) // i+1 j-1
+                if ( i+1 < height && j-1 >= 0 && board[i+1][j-1] != nullptr ) // i+1 j-1
                     board[i][j]->setNewVoisin( board[i+1][j-1] );
 
-                if ( i+1 < width && board[i+1][j] != nullptr ) // i+1 j
+                if ( i+1 < height && board[i+1][j] != nullptr ) // i+1 j
                     board[i][j]->setNewVoisin( board[i+1][j] );
 
-                if ( j+1 < height && board[i][j+1] != nullptr ) // i j+1
+                if ( j+1 < width && board[i][j+1] != nullptr ) // i j+1
                     board[i][j]->setNewVoisin( board[i][j+1] );
 
-                if ( i-1 >= 0 && j+1 < height && board[i-1][j+1] != nullptr) // i-1 j+1
+                if ( i-1 >= 0 && j+1 < width && board[i-1][j+1] != nullptr) // i-1 j+1
                     board[i][j]->setNewVoisin( board[i-1][j+1] );
             }
+
+            else
+                std::cout<< 0 << " ";
         }
     }
 }
