@@ -17,8 +17,8 @@ using namespace std;
  * @param pop [Population de départ]
  */
 HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
-    : indexCol(i),
-      indexLine(j),
+    : indexLine(i),
+      indexCol(j),
       playerId(pID),
       type(ct),
       population(pop),

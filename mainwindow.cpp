@@ -41,7 +41,7 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
 
-    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
+    hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
     selectedCell = nullptr;
     ia = new IA(hexaCellBoard,2);
 
@@ -100,7 +100,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
  */
 void MainWindow::newSelectedCell(HexaCell *hc)
 {
-    if (selectedCell == nullptr && hc->getPlayerID() == 0)
+    if (selectedCell == nullptr && hc->getPlayerID() == 1)
     {
         std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
@@ -109,16 +109,17 @@ void MainWindow::newSelectedCell(HexaCell *hc)
     {
 
         std::cout<<"avant dijkstra"<<std::endl;
-        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 0);
+        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 1);
+        std::cout<<"apres dijkstra"<<std::endl;
 
         if (!c.empty())
         {
-            std::cout<<"pointeur non nul"<<std::endl;
-            movePopulation( c );
+            std::cout<<"liste non vide"<<std::endl;
+            movePopulation(c);
         }
         else
         {
-        std::cout<<"nul"<<std::endl;
+            std::cout<<"liste vide"<<std::endl;
         }
         selectedCell = nullptr;
     }
