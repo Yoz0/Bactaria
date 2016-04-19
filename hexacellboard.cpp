@@ -275,5 +275,3 @@ int HexaCellBoard::winTest()
     }
     return res;
 }
-
-

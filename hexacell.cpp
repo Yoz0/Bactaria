@@ -22,7 +22,8 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
       playerId(pID),
       type(ct),
       population(pop),
-      mouseHover(false)
+      mouseHover(false),
+      highlight(false)
 {
     QPolygonF pol;
     pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
@@ -80,8 +81,17 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     //SetPen for painter
     QPen p;
     p.setStyle(Qt::SolidLine);
-    p.setWidth(1);
-    p.setBrush(Qt::black);
+    p.setWidth(2);
+    if(selected)
+    {
+        p.setBrush(Qt::yellow);
+        this->setZValue(2);
+    }
+    else
+    {
+        p.setBrush(Qt::black);
+        this->setZValue(1);
+    }
     p.setCapStyle(Qt::SquareCap);
     p.setJoinStyle(Qt::MiterJoin);
     painter->setPen(p);
@@ -104,9 +114,13 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     }
 
+    if( highlight )
+        color = QColor(239,235,18);
+
     QRadialGradient gradient( 2, 2, 30, 2, 2);
-    color = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
-    if ( option->state & QStyle::State_MouseOver )
+    //color = (option->state & QStyle::State_Selected) ? color.dark(150) : color;
+    //if ( option->state & QStyle::State_MouseOver )
+    if ( mouseHover == true )
         gradient.setColorAt(0, color.light(170));
     else
         gradient.setColorAt(0, color);
@@ -117,7 +131,7 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     //Population Text
     //if( option->state & QStyle::State_MouseOver )
-        painter->drawText( this->boundingRect(), Qt::AlignCenter, QString::number( this->population ) );
+    painter->drawText( this->boundingRect(), Qt::AlignCenter, QString::number( this->population ) );
 }
 
 /**
@@ -138,18 +152,24 @@ void HexaCell::growing()
  */
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mousePressEvent(event);
-    MainWindow::getInstance()->newSelectedCell(this);
+    selected = MainWindow::getInstance()->newSelectedCell(this);
+    this->update();
+}
+
+void HexaCell::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    MainWindow::getInstance()->newHoverCell(this);
+    mouseHover = true;
+    this->update();
+}
+
+void HexaCell::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    mouseHover = false;
     this->update();
 }
 
 /*
-void HexaCell::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    //QGraphicsItem::mouseMoveEvent(event);
-    //this->update();
-}
-
 void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)

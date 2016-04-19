@@ -31,7 +31,8 @@ public:
 
     void timerEvent(QTimerEvent *event);
 
-    void newSelectedCell(HexaCell* hc);
+    bool newSelectedCell(HexaCell* hc);
+    void newHoverCell(HexaCell* hc);
 
     void movePopulation(list<HexaCell*> cellPath, int playerID );
 
@@ -43,6 +44,8 @@ private:
     GameView*       gameView;
     HexaCellBoard*  hexaCellBoard;
     HexaCell*       selectedCell;
+    HexaCell*       hoverCell;
+    list<HexaCell*> path;
     IA*             ia;
 
     static MainWindow*     singleton;
@@ -51,6 +54,9 @@ private:
 
     bool            started;
     bool            maybeClose();
+
+    int timerSecond;
+    int timerFast;
 
     MainWindow(QWidget *parent = 0);
 
