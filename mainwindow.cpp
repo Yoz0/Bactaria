@@ -89,7 +89,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     if( event->timerId() == timerSecond && started )
     {
         this->hexaCellBoard->cellGrowing();
-        //this->ia->action();
+        this->ia->action();
     }
 }
 
