@@ -16,6 +16,5 @@ GameView::GameView(QWidget* parent)
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    setFixedSize(1024,700);
+    setFixedSize(1366,768);
 }

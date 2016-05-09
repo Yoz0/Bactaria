@@ -15,12 +15,10 @@ MainWindow* MainWindow::singleton;
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
-
     isInstanced = true;
     //Background image
-    this->setStyleSheet("background-color: white");
-                //"background-image:url(\"background.jpg\"); background-position: center;"
-                //background-image: url(:Bactaria/background.jpg; background-position: center;  A CONTINUER en changeant taille de la fenêtre aussi
+    this->setStyleSheet("background-image: url(./data/sci_fi-wallpaper-1366x768.jpg);");
+    setContextMenuPolicy(Qt::NoContextMenu);
 
     started = false;
     this->start();
@@ -41,7 +39,7 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
 
-    hexaCellBoard->setupBoard(this->scene, "../data/model1.txt");
+    hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
     selectedCell = nullptr;
     ia = new IA(hexaCellBoard,2);
 
