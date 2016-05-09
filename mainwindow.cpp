@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     isInstanced = true;
     //Background image
     this->setStyleSheet("background-image: url(./data/sci_fi-wallpaper-1366x768.jpg);");
+
     setContextMenuPolicy(Qt::NoContextMenu);
 
     started = false;
