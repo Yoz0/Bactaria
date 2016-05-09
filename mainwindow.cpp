@@ -2,6 +2,7 @@
 #include <list>
 #include "hexacell.h"
 #include <iostream>
+#include "config.h"
 
 bool MainWindow::isInstanced = false;
 MainWindow* MainWindow::singleton;
@@ -19,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     gameView->setParent(this);
     isInstanced = true;
     //Background image
-    this->setStyleSheet("background-image: url(./data/sci_fi-wallpaper-1366x768.jpg);");
+    this->setStyleSheet(("background-image: url("+PATH_TO_IMAGE+");").c_str());
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
@@ -41,15 +42,15 @@ void MainWindow::start()
     gameView->setParent(this);
 
     hexaCellBoard = new HexaCellBoard(this->scene);
-    hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
+    hexaCellBoard->setupBoard(this->scene, PATH_TO_MODEL);
 
     selectedCell = nullptr;
     hoverCell = nullptr;
 
     ia = new IA(hexaCellBoard,2);
 
-    timerSecond = startTimer(1000);
-    timerFast = startTimer(100);
+    timerMain = startTimer(MAINSPEED);
+    timerIA = startTimer(IASPEED);
     started = true;
 }
 
@@ -99,16 +100,17 @@ void MainWindow::restart()
  */
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if( event->timerId() == timerSecond && started )
+    if( event->timerId() == timerMain && started )
     {
         this->hexaCellBoard->cellGrowing();
-        this->ia->action();
         int winner = this->hexaCellBoard->winTest();
         if (winner == 1)
             WinRestart();
         else if (winner == 2)
             LoseRestart();
     }
+    if (event->timerId() == timerIA && started)
+        this->ia->action();
 }
 
 /**

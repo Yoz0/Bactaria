@@ -25,7 +25,8 @@ HEADERS  += \
     hexacell.h \
     gameview.h \
     mainwindow.h \
-    ia.h
+    ia.h \
+    config.h
 
 OTHER_FILES += \
     README.md \

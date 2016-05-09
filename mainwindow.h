@@ -57,8 +57,8 @@ private:
     bool            started;
     bool            maybeClose();
 
-    int timerSecond;
-    int timerFast;
+    int timerMain;
+    int timerIA;
 
     MainWindow(QWidget *parent = 0);
 
