@@ -28,7 +28,13 @@ HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
  */
 HexaCellBoard::~HexaCellBoard()
 {
-
+    for (auto row: board){
+        for (auto hc: row){
+            std::cout<<"delete hc : "<<hc<<std::endl;
+            if (hc != nullptr)
+                delete hc;
+        }
+    }
 }
 
 /**
@@ -243,43 +249,41 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
 
 int HexaCellBoard::winTest()
 {
-    /*Fonction testant si le plateau est gagnant ou perdant. Si le joueur a gagné ( 80% du plateau
-     * conquis ou ia défaite ), cette fonction renvoie 1 ( l'id du joueur). Si l'ia a gagnée ( joueur défait)
-     * elle renvoie 2. Sinon, elle renvoie 0 et la partie peut continuer.
+    /* Fonction testant si le plateau est gagnant ou perdant.
+     * Si le joueur a gagné ( 80% du plateau conquis ou ia défaite ), cette fonction renvoie 1 ( l'id du joueur).
+     * Si l'ia a gagnée (joueur défait) elle renvoie 2.
+     * Sinon, elle renvoie 0 et la partie peut continuer.
      *
      * Cette fonction est adaptée à la présence de cases "vides" dans le plateau.
-     *
      * */
 
-    int i, j, playerCount,iaCount, neutralCount, res;
+    int i, j, playerCount, iaCount, neutralCount, res;
+    playerCount = 0;
+    neutralCount = 0;
+    iaCount = 0;
     float somme;
     for (i=0;i<height;i++)
     {
         for (j=0;j<width; j++)
         {
-            if (board[i][j]->getPlayerID() == 1)
-           {     std::cout << "wow " << std::endl;  //le segfault vient d'ici
-                playerCount++;
-           }
-            else if (board[i][j]->getPlayerID() == 2)
-                iaCount++;
-            else if (board[i][j]->getPlayerID() == 0)
-                neutralCount++;
+            if (board[i][j] != nullptr){
+               if (board[i][j]->getPlayerID() == 1)
+                    playerCount++;
+                else if (board[i][j]->getPlayerID() == 2)
+                    iaCount++;
+                else if (board[i][j]->getPlayerID() == 0)
+                    neutralCount++;
+            }
         }
     }
     somme = playerCount + iaCount + neutralCount;
     if (playerCount/somme > 0.8 || iaCount == 0)
     {
         res = 1;
-        MainWindow* mainWindow = MainWindow::getInstance();
-        mainWindow->WinRestart();
-
     }
     else if (playerCount == 0)
     {
         res = 2;
-        MainWindow* mainWindow = MainWindow::getInstance();
-        mainWindow->LoseRestart();
     }
     else
     {

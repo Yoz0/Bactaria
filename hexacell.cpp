@@ -23,7 +23,8 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
       type(ct),
       population(pop),
       mouseHover(false),
-      highlight(false)
+      highlight(false),
+      selected(false)
 {
     QPolygonF pol;
     pol << QPointF( 1, 0 ) << QPointF( qreal(1.0/2), qreal(sqrt(3.0)/2) ) << QPointF( qreal(-1.0/2), qreal(sqrt(3.0)/2 ))
@@ -51,6 +52,7 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
  */
 HexaCell::~HexaCell()
 {
+    std::cout<<"delete hc i,j"<<indexLine<<" "<<indexCol<<std::endl;
 
 }
 

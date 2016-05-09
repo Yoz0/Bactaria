@@ -15,6 +15,8 @@ MainWindow* MainWindow::singleton;
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
+    gameView = new GameView(this);
+    gameView->setParent(this);
     isInstanced = true;
     //Background image
     this->setStyleSheet("background-image: url(./data/sci_fi-wallpaper-1366x768.jpg);");
@@ -23,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     started = false;
     this->start();
-    selectedCell = nullptr;
 }
 
 /**
@@ -35,13 +36,16 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::start()
 {
     scene = new QGraphicsScene();
-    gameView = new GameView(this);
-    hexaCellBoard = new HexaCellBoard(this->scene);
+
     gameView->setScene(scene);
     gameView->setParent(this);
 
+    hexaCellBoard = new HexaCellBoard(this->scene);
     hexaCellBoard->setupBoard(this->scene, "data/model1.txt");
+
     selectedCell = nullptr;
+    hoverCell = nullptr;
+
     ia = new IA(hexaCellBoard,2);
 
     timerSecond = startTimer(1000);
@@ -75,8 +79,14 @@ void MainWindow::restart()
 {
     // clear some stuff then call start()
 
-
-
+    std::cout<<"delete hexaCellBoard"<<std::endl;
+    delete hexaCellBoard;
+    std::cout<<"delete ia"<<std::endl;
+    delete ia;
+    std::cout<<"delete scene"<<std::endl;
+    delete scene;
+    started = false;
+    std::cout<<"all delete successfull"<<std::endl;
     start();
 
 }
@@ -93,9 +103,11 @@ void MainWindow::timerEvent(QTimerEvent *event)
     {
         this->hexaCellBoard->cellGrowing();
         this->ia->action();
-
-        //Test si le jeu est fini ou non, mais SEGFAULT! (voir fonction : winTest() )
-        //this->hexaCellBoard->winTest();
+        int winner = this->hexaCellBoard->winTest();
+        if (winner == 1)
+            WinRestart();
+        else if (winner == 2)
+            LoseRestart();
     }
 }
 
@@ -258,7 +270,7 @@ bool MainWindow::LoseRestart()
                                QMessageBox::Yes| QMessageBox::No);
          if (ret == QMessageBox::Yes)
          {
-             start();
+             restart();
          }
          else if (ret == QMessageBox::No)
          {
