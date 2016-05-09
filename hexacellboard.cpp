@@ -180,6 +180,7 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
      }
      distanceBoard[start->getIndexLine()][start->getIndexColumn()] = 0;
 
+     //Cherche les distances
      int iMin, jMin, min=1000;
      while (pasFini(markedCells))
      {
@@ -207,10 +208,14 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
          }
          markedCells[iMin][jMin] = true;
      }
+
+     //Si il n'y a pas de chemins
      if (distanceBoard[end->getIndexLine()][end->getIndexColumn()] == 1000){
          list<HexaCell *> ret;
          return ret;
      }
+
+     //Remonte pour renvoyer le bon chemin
      HexaCell* temp = end;
 
      list<HexaCell *> ret;
@@ -222,7 +227,7 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
          min = 1000;
          for( auto voisin : temp->getVoisins() )
          {
-            if (distanceBoard[voisin->getIndexLine()][voisin->getIndexColumn()] < min)
+            if (voisin->getPlayerID()==idPlayer && distanceBoard[voisin->getIndexLine()][voisin->getIndexColumn()] < min)
             {
                 min=distanceBoard[voisin->getIndexLine()][voisin->getIndexColumn()];
                 iMin = voisin->getIndexLine();
