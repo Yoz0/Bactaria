@@ -75,6 +75,10 @@ void MainWindow::restart()
 {
     // clear some stuff then call start()
 
+
+
+    start();
+
 }
 
 /**
@@ -89,6 +93,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
     {
         this->hexaCellBoard->cellGrowing();
         this->ia->action();
+
+        //Test si le jeu est fini ou non, mais SEGFAULT! (voir fonction : winTest() )
+        //this->hexaCellBoard->winTest();
     }
 }
 
@@ -218,4 +225,43 @@ bool MainWindow::maybeClose() //Confirm close event
             return false;
         }
     return true;
+}
+
+bool MainWindow::WinRestart()
+{
+    QMessageBox msgBox;
+    QMessageBox::StandardButton ret;
+    QCloseEvent *event;
+    ret = QMessageBox::question(this,
+                               tr("Congratulations!"),
+                               tr("You won! Play again?"),
+                               QMessageBox::Yes| QMessageBox::No);
+         if (ret == QMessageBox::Yes)
+         {
+             start();
+         }
+         else if (ret == QMessageBox::No)
+         {
+             closeEvent(event);
+
+         }
+}
+
+bool MainWindow::LoseRestart()
+{
+    QMessageBox msgBox;
+    QMessageBox::StandardButton ret;
+    QCloseEvent *event;
+    ret = QMessageBox::question(this,
+                               tr("What a shame!"),
+                               tr("You lost! Play again?"),
+                               QMessageBox::Yes| QMessageBox::No);
+         if (ret == QMessageBox::Yes)
+         {
+             start();
+         }
+         else if (ret == QMessageBox::No)
+         {
+             closeEvent(event);
+         }
 }

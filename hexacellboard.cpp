@@ -253,7 +253,9 @@ int HexaCellBoard::winTest()
         for (j=0;j<width; j++)
         {
             if (board[i][j]->getPlayerID() == 1)
+           {     std::cout << "wow " << std::endl;  //le segfault vient d'ici
                 playerCount++;
+           }
             else if (board[i][j]->getPlayerID() == 2)
                 iaCount++;
             else if (board[i][j]->getPlayerID() == 0)
@@ -264,14 +266,20 @@ int HexaCellBoard::winTest()
     if (playerCount/somme > 0.8 || iaCount == 0)
     {
         res = 1;
+        MainWindow* mainWindow = MainWindow::getInstance();
+        mainWindow->WinRestart();
+
     }
     else if (playerCount == 0)
     {
         res = 2;
+        MainWindow* mainWindow = MainWindow::getInstance();
+        mainWindow->LoseRestart();
     }
     else
     {
         res = 0;
     }
+
     return res;
 }

@@ -35,6 +35,8 @@ public:
     void newHoverCell(HexaCell* hc);
 
     void movePopulation(list<HexaCell*> cellPath, int playerID );
+    bool LoseRestart();
+    bool WinRestart();
 
 protected:
     void closeEvent(QCloseEvent *event);

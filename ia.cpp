@@ -1,6 +1,7 @@
 #include "ia.h"
 #include <iostream>
 #include "mainwindow.h"
+#include "hexacellboard.h"
 
 /**
  * @brief [brief description]
