@@ -22,6 +22,8 @@ private:
     int         population;
     CellType    type;
     bool        mouseHover;
+    bool        selected;
+    bool        highlight;
 
     list<HexaCell*> voisins;
 
@@ -43,6 +45,8 @@ public:
     void decPopulation(int pop) { population -= pop; }
     list<HexaCell *> getVoisins() const { return voisins; }
     void setNewVoisin(HexaCell* v) { voisins.push_back(v); }
+    void setHighlight(bool value){ highlight = value; update();}
+    void setSelected(bool value){ selected = value; update();}
 
     //override methods
     QPainterPath shape() const;
@@ -54,10 +58,12 @@ public:
 signals:
     void rightClicked();
 */
+
 protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 

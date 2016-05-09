@@ -44,7 +44,8 @@ void MainWindow::start()
     selectedCell = nullptr;
     ia = new IA(hexaCellBoard,2);
 
-    startTimer(1000);   // 1/2-second timer
+    timerSecond = startTimer(1000);
+    timerFast = startTimer(100);
     started = true;
 }
 
@@ -84,10 +85,10 @@ void MainWindow::restart()
  */
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if(started)
+    if( event->timerId() == timerSecond && started )
     {
         this->hexaCellBoard->cellGrowing();
-        //this->ia->action();
+        this->ia->action();
     }
 }
 
@@ -97,32 +98,57 @@ void MainWindow::timerEvent(QTimerEvent *event)
  * 
  * @param hc [description]
  */
-void MainWindow::newSelectedCell(HexaCell *hc)
+bool MainWindow::newSelectedCell(HexaCell *hc)
 {
     if (selectedCell == nullptr && hc->getPlayerID() == 1)
     {
         std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
+        return true;
     }
     else if (selectedCell != nullptr)
     {
-
-        std::cout<<"avant dijkstra"<<std::endl;
         list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hc, 1);
-        std::cout<<"apres dijkstra"<<std::endl;
 
         if (!c.empty())
         {
-            std::cout<<"liste non vide"<<std::endl;
             movePopulation(c,1);
         }
-        else
-        {
-            std::cout<<"liste vide"<<std::endl;
-        }
+        selectedCell->setSelected(false);
         selectedCell = nullptr;
+
+        for( auto i : path )
+        {
+            i->setHighlight(false);
+        }
+        path.clear();
+
+        return false;
+    }
+    return false;
+}
+
+void MainWindow::newHoverCell(HexaCell *hc)
+{
+    hoverCell = hc;
+    if( selectedCell != nullptr )
+    {
+        list<HexaCell*> c = hexaCellBoard->dijkstra(selectedCell, hoverCell, 1);
+
+        for( auto i : path )
+        {
+            i->setHighlight(false);
+        }
+
+        for( auto i : c )
+        {
+            i->setHighlight(true);
+        }
+
+        path = c;
     }
 }
+
 
 /**
  * @brief [brief description]
@@ -165,6 +191,8 @@ void MainWindow::movePopulation(std::list<HexaCell*> cellPath, int playerID )
             endCell->setPlayerID(playerID);
         }
     }
+    startCell->update();
+    endCell->update();
 }
 
 /**

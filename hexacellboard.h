@@ -19,6 +19,7 @@ private:
     int width;
     int height;
 
+
 public:
     // Constructor / Destructor
     HexaCellBoard(QGraphicsScene* scene);
