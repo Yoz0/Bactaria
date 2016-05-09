@@ -29,4 +29,8 @@ HEADERS  += \
 
 OTHER_FILES += \
     README.md \
-    data/*
+    data/* \
+    ../../AH KANE/Pictures/Tower_Bridge_by_tumb.jpg
+
+RESOURCES += \
+    data/image.qrc

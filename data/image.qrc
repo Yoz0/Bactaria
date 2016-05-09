@@ -1,1 +1,6 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>images.jpg</file>
+        <file>sci_fi-wallpaper-1366x768.jpg</file>
+    </qresource>
+</RCC>
