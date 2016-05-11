@@ -1,11 +1,8 @@
 #include "ia.h"
-#include <iostream>
 #include "mainwindow.h"
-#include "hexacellboard.h"
 
 /**
  * @brief This is the IA player
- * 
  * @param hcb a pointer to the playing HexaCellBoard
  * @param PID the player ID of the IA player (Should be 2)
  */
