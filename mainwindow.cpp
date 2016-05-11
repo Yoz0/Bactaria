@@ -1,17 +1,14 @@
 #include "mainwindow.h"
 #include <list>
 #include "hexacell.h"
-#include <iostream>
 #include "config.h"
 
 bool MainWindow::isInstanced = false;
 MainWindow* MainWindow::singleton;
 
 /**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param parent [description]
+ * @brief This is the main widget
+ * @param parent The parent of the widget, should be null
  */
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -29,10 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param e [description]
+ * @brief Load all the things we need to play
  */
 void MainWindow::start()
 {
@@ -55,10 +49,11 @@ void MainWindow::start()
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Catch the closeEvent.
+ * @details Launch maybeClose() to ask the user if he really want to quit.
+ * If so close the windows
  * 
- * @param event [description]
+ * @param event The close Event
  */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -73,30 +68,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief clear some stuff then call start()
  */
 void MainWindow::restart()
 {
-    // clear some stuff then call start()
-
-    std::cout<<"delete hexaCellBoard"<<std::endl;
     delete hexaCellBoard;
-    std::cout<<"delete ia"<<std::endl;
     delete ia;
-    std::cout<<"delete scene"<<std::endl;
     delete scene;
     started = false;
-    std::cout<<"all delete successfull"<<std::endl;
     start();
-
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param event [description]
+ * @brief Catch the timerEvent
+ * @details If the timeEvent is timerMain then grow the cell, and check if there is a winner
+ * If the timerEvent is timerIA call ia->action()
+ * @param event the timerEvent
  */
 void MainWindow::timerEvent(QTimerEvent *event)
 {
@@ -114,16 +101,17 @@ void MainWindow::timerEvent(QTimerEvent *event)
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Select a new Cell
+ * @details If there isn't a selected Cell and the Cell belongs to the player, select that Cell
+ * If there is already a selected Cell move the population from the previous selected cell to @hc
  * 
- * @param hc [description]
+ * @param hc a pointer to the new selected Cell
+ * @return true if hc is selected at the end false otherwise.
  */
 bool MainWindow::newSelectedCell(HexaCell *hc)
 {
     if (selectedCell == nullptr && hc->getPlayerID() == 1)
     {
-        std::cout<<"case selectionnee"<<std::endl;
         selectedCell = hc;
         return true;
     }
@@ -149,6 +137,12 @@ bool MainWindow::newSelectedCell(HexaCell *hc)
     return false;
 }
 
+/**
+ * @brief [brief description]
+ * @details [long description]
+ *
+ * @param hc [description]
+ */
 void MainWindow::newHoverCell(HexaCell *hc)
 {
     hoverCell = hc;
@@ -172,10 +166,11 @@ void MainWindow::newHoverCell(HexaCell *hc)
 
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Move half the population from the first Cell to the last Cell of cellPath
+ * @details It should be noted that movePopulation() check wether it's legal to do that move before
  * 
- * @param cellPath [description]
+ * @param cellPath a list of pointer to Hexacell, all HexaCell should be adjacent
+ * @param playerID the Id of the player trying to do that move
  */
 void MainWindow::movePopulation(std::list<HexaCell*> cellPath, int playerID )
 {
@@ -183,7 +178,6 @@ void MainWindow::movePopulation(std::list<HexaCell*> cellPath, int playerID )
     HexaCell* endCell = cellPath.back();
     int popToMove = (startCell)->getPopulation() / 2;
     if (playerID != startCell->getPlayerID()){
-        std::cout<<"Erreur, la cellule de départ n'appartient pas au player"<<std::endl;
         return;
     }
     if (endCell->getPlayerID() == playerID)
