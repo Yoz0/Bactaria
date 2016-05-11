@@ -4,11 +4,10 @@
 #include "hexacellboard.h"
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief This is the IA player
  * 
- * @param hcb [description]
- * @param PID [description]
+ * @param hcb a pointer to the playing HexaCellBoard
+ * @param PID the player ID of the IA player (Should be 2)
  */
 IA::IA(HexaCellBoard* hcb, int PID)
 {
@@ -17,26 +16,21 @@ IA::IA(HexaCellBoard* hcb, int PID)
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Choose what to do as the IA
+ * @details Currently, the IA find its bigger cell and move half the pop from that cell to the closer cell that's not his.
  * 
- * @param startCell [description]
  */
 void IA::action()
 {
-    std::cout<<"biggestCell()"<<std::endl;
     HexaCell* startCell = biggestCell();
-    std::cout<<"cellPath()"<<std::endl;
     list<HexaCell*> cellPath = closestCell(startCell);
-    std::cout<<"movePopulation()"<<std::endl;
     if ( ! cellPath.empty() )
         MainWindow::getInstance()->movePopulation(cellPath,myPID);
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
- * @return [description]
+ * @brief Find the biggest cell of the IA
+ * @return a pointer to taht HexaCell
  */
 HexaCell* IA::biggestCell()
 {
@@ -62,11 +56,9 @@ HexaCell* IA::biggestCell()
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param startCell [description]
- * @return [description]
+ * @brief Find the closest Cell of @stratCell that's not belonging to the IA
+ * @param startCell a pointer to a HexaCell belonging to the IA
+ * @return The path from @startCell to the closest Cell that's not belonging to the IA
  */
 list<HexaCell*> IA::closestCell(HexaCell* startCell)
 {
