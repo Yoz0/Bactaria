@@ -217,9 +217,9 @@ void MainWindow::movePopulation(std::list<HexaCell*> cellPath, int playerID )
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
- * @return [description]
+ * @brief Demande de confirmation de quitter le jeu
+ * @details
+ * @return true (exit) or false (cancel)
  */
 bool MainWindow::maybeClose() //Confirm close event
 {
@@ -241,6 +241,11 @@ bool MainWindow::maybeClose() //Confirm close event
     return true;
 }
 
+/**
+ * @brief Permet de choisir de rejouer en  cas de victoire
+ * @details
+ * @return relance le jeu ou quitte le jeu
+ */
 bool MainWindow::WinRestart()
 {
     QMessageBox msgBox;
@@ -261,6 +266,11 @@ bool MainWindow::WinRestart()
          }
 }
 
+/**
+ * @brief Permet de rejouer en  cas de défaite
+ * @details
+ * @return relance le jeu ou quitte le jeu
+ */
 bool MainWindow::LoseRestart()
 {
     QMessageBox msgBox;
