@@ -35,8 +35,7 @@ void MainWindow::start()
     gameView->setScene(scene);
     gameView->setParent(this);
 
-    hexaCellBoard = new HexaCellBoard(this->scene);
-    hexaCellBoard->setupBoard(this->scene, PATH_TO_MODEL);
+    hexaCellBoard = new HexaCellBoard(this->scene, PATH_TO_MODEL);
 
     selectedCell = nullptr;
     hoverCell = nullptr;
@@ -244,7 +243,7 @@ bool MainWindow::WinRestart()
 {
     QMessageBox msgBox;
     QMessageBox::StandardButton ret;
-    QCloseEvent *event;
+    QCloseEvent *event = new QCloseEvent;
     ret = QMessageBox::question(this,
                                tr("Congratulations!"),
                                tr("You won! Play again?"),
@@ -258,6 +257,7 @@ bool MainWindow::WinRestart()
              closeEvent(event);
 
          }
+    return ret;
 }
 
 /**
@@ -269,17 +269,18 @@ bool MainWindow::LoseRestart()
 {
     QMessageBox msgBox;
     QMessageBox::StandardButton ret;
-    QCloseEvent *event;
+    QCloseEvent *event = new QCloseEvent;
     ret = QMessageBox::question(this,
                                tr("What a shame!"),
                                tr("You lost! Play again?"),
                                QMessageBox::Yes| QMessageBox::No);
-         if (ret == QMessageBox::Yes)
-         {
-             restart();
-         }
-         else if (ret == QMessageBox::No)
-         {
-             closeEvent(event);
-         }
+    if (ret == QMessageBox::Yes)
+    {
+        restart();
+    }
+    else if (ret == QMessageBox::No)
+    {
+        closeEvent(event);
+    }
+    return ret;
 }

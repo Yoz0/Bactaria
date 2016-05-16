@@ -19,11 +19,11 @@ private:
     int         indexLine;
     int         indexCol;
     int         playerId;
-    int         population;
     CellType    type;
+    int         population;
     bool        mouseHover;
-    bool        selected;
     bool        highlight;
+    bool        selected;
 
     list<HexaCell*> voisins;
 

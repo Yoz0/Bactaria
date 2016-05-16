@@ -12,39 +12,13 @@
 #include <QTextStream>
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Constructeur de HexaCellBoard
+ * @details Lit le fichier f pour mettre en place le board
  * 
- * @param scene [description]
+ * @param scene la scene où les HexaCell doivent être attachés
+ * @param f Le chemin vers le fichier model.txt
  */
-HexaCellBoard::HexaCellBoard(QGraphicsScene* scene)
-{
-}
-
-/**
- * @brief [brief description]
- * @details [long description]
- * @return [description]
- */
-HexaCellBoard::~HexaCellBoard()
-{
-    for (auto row: board){
-        for (auto hc: row){
-            std::cout<<"delete hc : "<<hc<<std::endl;
-            if (hc != nullptr)
-                delete hc;
-        }
-    }
-}
-
-/**
- * @brief [brief description]
- * @details [long description]
- * 
- * @param scene [description]
- * @param f [description]
- */
-void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
+HexaCellBoard::HexaCellBoard(QGraphicsScene *scene, string f)
 {
     QFile file( QString::fromStdString(f) );
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -60,7 +34,7 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
     width = list.at(1).toInt();
     // on resize board
     this->board.resize(height);
-    for(int i=0; i<board.size(); i++)
+    for(int i=0; i<(int)board.size(); i++)
         board[i].resize(width);
     // on lit chaque ligne
     while (!in.atEnd()) {
@@ -86,13 +60,11 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
     // Les voisins de chaques hexacell
     for(int i = 0 ; i < height ; i ++)
     {
-        std::cout << std::endl;
         for(int j = 0 ; j < width ; j ++)
         {
 
             if( board[i][j] != nullptr )
             {
-                std::cout<< 1 << " ";
                 if( i-1 >= 0 && board[i-1][j] != nullptr ) // i-1 j
                     board[i][j]->setNewVoisin( board[i-1][j] );
 
@@ -111,18 +83,28 @@ void HexaCellBoard::setupBoard(QGraphicsScene *scene, string f)
                 if ( i-1 >= 0 && j+1 < width && board[i-1][j+1] != nullptr) // i-1 j+1
                     board[i][j]->setNewVoisin( board[i-1][j+1] );
             }
-
-            else
-                std::cout<< 0 << " ";
         }
     }
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief destructeur de HexaCellBoard
+ * @details Supprime tous les Hexacell avant de se détruire lui-même
+ */
+HexaCellBoard::~HexaCellBoard()
+{
+    for (auto row: board){
+        for (auto hc: row){
+            if (hc != nullptr)
+                delete hc;
+        }
+    }
+}
+
+
+/**
+ * @brief Fait grossir les HexaCell
  * 
- * @param r [description]
  */
 void HexaCellBoard::cellGrowing()
 {
@@ -138,11 +120,10 @@ void HexaCellBoard::cellGrowing()
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Vérifie si un des élments de tab est à false
  * 
- * @param tab [description]
- * @return [description]
+ * @param tab Le tableau de boolean
+ * @return true si il y a un éléments de tab à false, false sinon.
  */
 bool pasFini( vector<vector<bool>> tab)
 {
@@ -154,13 +135,13 @@ bool pasFini( vector<vector<bool>> tab)
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Renvoie le chemin le plus court entre @start et @end en passant par les cases du joueur @idPlayer
+ * @details Utilise l'algorithme de dijkstra
  * 
- * @param start [description]
- * @param end [description]
- * @param idPlayer [description]
- * @return [description]
+ * @param start La cellule de départ, doit appartenir à @idPlayer
+ * @param end La cellule d'arrivé
+ * @param idPlayer Le joueur qui lance le  mouvement
+ * @return Le chemin (une liste de cellules) de start à end si il existe, liste vide sinon.
  */
 list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPlayer)
 {
@@ -187,7 +168,7 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
      distanceBoard[start->getIndexLine()][start->getIndexColumn()] = 0;
 
      //Cherche les distances
-     int iMin, jMin, min=1000;
+     int iMin=-1, jMin=-1, min=1000;
      while (pasFini(markedCells))
      {
          min = 10000000;
@@ -247,6 +228,15 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
 }
 
 
+/**
+ * @brief vérifie si un des joueurs à gagné
+ * @details Fonction testant si le plateau est gagnant ou perdant.
+ * Si le joueur a gagné ( 80% du plateau conquis ou ia défaite ), cette fonction renvoie 1 ( l'id du joueur).
+ * Si l'ia a gagnée (joueur défait) elle renvoie 2.
+ * Sinon, elle renvoie 0 et la partie peut continuer.
+ *
+ * Cette fonction est adaptée à la présence de cases "vides" dans le plateau.
+ */
 int HexaCellBoard::winTest()
 {
     /* Fonction testant si le plateau est gagnant ou perdant.

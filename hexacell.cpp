@@ -7,14 +7,13 @@
 using namespace std;
 
 /**
- * @brief [Constructeur HexaCell]
- * @details [long description]
+ * @brief Constructeur HexaCell
  * 
- * @param i [Index colonne]
- * @param j [Index ligne]
- * @param pID [ID joueu]r
- * @param ct [Type de cellule]
- * @param pop [Population de départ]
+ * @param i Index colonne
+ * @param j Index ligne
+ * @param pID ID joueur
+ * @param ct Type de cellule
+ * @param pop Population de départ
  */
 HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     : indexLine(i),
@@ -47,19 +46,16 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
 }
 
 /**
- * @brief [Destructeur HexaCell]
- * @details [long description]
+ * @brief Destructeur HexaCell
  */
 HexaCell::~HexaCell()
 {
-    std::cout<<"delete hc i,j"<<indexLine<<" "<<indexCol<<std::endl;
 
 }
 
 /**
- * @brief [Méthode shape]
- * @details [long description]
- * @return [retourne un QPainterPath]
+ * @brief Méthode shape, renvoie la forme de la cellule
+ * @return retourne un QPainterPath
  */
 QPainterPath HexaCell::shape() const
 {
@@ -69,8 +65,7 @@ QPainterPath HexaCell::shape() const
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Méthode Paint, dessine la Cellule
  * 
  * @param painter [description]
  * @param option [description]
@@ -112,7 +107,7 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         color = QColor(208,107,103);
         break;
     default:
-        std::cerr << "Error hexacell.cpp : paint playerID";
+        cerr << "Error hexacell.cpp : paint playerID";
 
     }
 
@@ -137,8 +132,7 @@ void HexaCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief Fait grossir la population de la cellule
  */
 void HexaCell::growing()
 {
@@ -147,10 +141,8 @@ void HexaCell::growing()
 }
 
 /**
- * @brief [brief description]
- * @details [long description]
+ * @brief S'active quand on clique sur la cellule, appelle MainWindow::newSelectedCell
  * 
- * @param event [description]
  */
 void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -158,6 +150,10 @@ void HexaCell::mousePressEvent(QGraphicsSceneMouseEvent *event)
     this->update();
 }
 
+/**
+ * @brief S'active quand on passe la souris sur la cellule, illumine la case
+ *
+ */
 void HexaCell::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     MainWindow::getInstance()->newHoverCell(this);
@@ -165,54 +161,12 @@ void HexaCell::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     this->update();
 }
 
+/**
+ * @brief S'active quand on enlève la souris de la cellule, dé-illumine la case.
+ *
+ */
 void HexaCell::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     mouseHover = false;
     this->update();
 }
-
-/*
-void HexaCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (event->button() == Qt::RightButton)
-    {
-        int factArg = 0;
-                int fact(1);
-                factArg = QInputDialog::getInt(0, "Factorial Calculator",
-                    "Factorial of:", 1);
-                int i=2;
-                while (i <= factArg) {
-                    fact = fact * i;
-                    ++i;
-                }
-
-
-                    QString response = QString("The factorial of %1 is %2.\n%3")
-                        .arg(factArg).arg(fact)
-                        .arg("Compute another factorial?");
-                    QMessageBox msgBox;
-                    QFont font; font.setBold(true);
-                    msgBox.setFont(font);
-                    QMessageBox::StandardButton ret;
-                    ret = QMessageBox::question(0, "Play again?", response,
-                        QMessageBox::Save | QMessageBox::No);
-
-
-
-        QMessageBox msgBox;
-        QPushButton *more_bact_Button = msgBox.addButton(QObject::tr("Add"), QMessageBox::ActionRole);
-        QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
-        QMessageBox::StandardButton box;
-        msgBox.setText("You right-clicked");
-        msgBox.exec();
-        if (msgBox.clickedButton() == more_bact_Button)
-        {
-
-        }
-
-    }
-    //else if (event->button() == Qt::LeftButton)
-    //QGraphicsItem::mouseReleaseEvent(event);
-    //this->update();
-}
-*/

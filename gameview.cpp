@@ -6,7 +6,6 @@
 
 /**
  * @brief [Constructeur GameView]
- * @details [long description]
  * 
  * @param parent [Le widget parent]
  */

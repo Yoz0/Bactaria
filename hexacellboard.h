@@ -22,7 +22,7 @@ private:
 
 public:
     // Constructor / Destructor
-    HexaCellBoard(QGraphicsScene* scene);
+    HexaCellBoard(QGraphicsScene *scene, string f);
     ~HexaCellBoard();
 
     // Getter / Setter
@@ -35,7 +35,6 @@ public:
     void removeBotCell(HexaCell* hc) { botCells.remove(hc);}
 
     //GameAction
-    void setupBoard( QGraphicsScene* scene, string f );
     void cellGrowing();
     list<HexaCell*> dijkstra(HexaCell* start, HexaCell* end, int idPlayer);
     int winTest();
