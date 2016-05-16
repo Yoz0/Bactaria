@@ -90,10 +90,14 @@ void MainWindow::timerEvent(QTimerEvent *event)
     {
         this->hexaCellBoard->cellGrowing();
         int winner = this->hexaCellBoard->winTest();
-        if (winner == 1)
+        if (winner == 1){
+            started = false;
             WinRestart();
-        else if (winner == 2)
+        }
+        else if (winner == 2){
+            started = false;
             LoseRestart();
+        }
     }
     if (event->timerId() == timerIA && started)
         this->ia->action();
@@ -243,7 +247,6 @@ bool MainWindow::WinRestart()
 {
     QMessageBox msgBox;
     QMessageBox::StandardButton ret;
-    QCloseEvent *event = new QCloseEvent;
     ret = QMessageBox::question(this,
                                tr("Congratulations!"),
                                tr("You won! Play again?"),
@@ -254,7 +257,7 @@ bool MainWindow::WinRestart()
          }
          else if (ret == QMessageBox::No)
          {
-             closeEvent(event);
+             close();
 
          }
     return ret;
@@ -269,7 +272,6 @@ bool MainWindow::LoseRestart()
 {
     QMessageBox msgBox;
     QMessageBox::StandardButton ret;
-    QCloseEvent *event = new QCloseEvent;
     ret = QMessageBox::question(this,
                                tr("What a shame!"),
                                tr("You lost! Play again?"),
@@ -280,7 +282,7 @@ bool MainWindow::LoseRestart()
     }
     else if (ret == QMessageBox::No)
     {
-        closeEvent(event);
+        close();
     }
     return ret;
 }
