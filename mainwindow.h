@@ -37,6 +37,8 @@ public:
     void movePopulation(list<HexaCell*> cellPath, int playerID );
     bool LoseRestart();
     bool WinRestart();
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -59,9 +61,6 @@ private:
 
     int timerMain;
     int timerIA;
-
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
 };
 

@@ -3,6 +3,8 @@
 #include <QGraphicsPolygonItem>
 #include <QColor>
 #include <list>
+#include <QRadialGradient>
+#include <QtWidgets>
 
 using namespace std;
 
@@ -26,6 +28,7 @@ private:
     bool        selected;
 
     list<HexaCell*> voisins;
+    QGraphicsDropShadowEffect* effect;
 
 public:
     static const int   hexaSize = 20;

@@ -31,6 +31,8 @@ void IA::action()
     list<HexaCell*> cellPath = closestCell(startCell);
     if ( ! cellPath.empty() )
         MainWindow::getInstance()->movePopulation(cellPath,myPID);
+    startCell = nullptr;
+    cellPath.clear();
 }
 
 /**
@@ -57,6 +59,7 @@ HexaCell* IA::biggestCell()
             }
         }
     }
+    currenthc = nullptr;
     return bighc;
 }
 
@@ -89,5 +92,7 @@ list<HexaCell*> IA::closestCell(HexaCell* startCell)
             }
         }
     }
+    currenthc = nullptr;
+    currentlist.clear();
     return smalllist;
 }

@@ -37,12 +37,11 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
     setFlags(ItemIsSelectable | ItemIsFocusable );
     setAcceptHoverEvents(true);
 
-    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    effect = new QGraphicsDropShadowEffect();
     effect->setBlurRadius(10);
     effect->setColor(QColor(0,0,0,1));
     effect->setOffset(QPointF(5,5));
     setGraphicsEffect(effect);
-
 }
 
 /**
@@ -50,7 +49,14 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
  */
 HexaCell::~HexaCell()
 {
-    delete &voisins;
+    for(auto i : voisins)
+    {
+        delete i;
+        i = nullptr;
+    }
+    voisins.clear();
+
+    delete effect;
 }
 
 /**

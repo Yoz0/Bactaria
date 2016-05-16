@@ -101,7 +101,9 @@ HexaCellBoard::~HexaCellBoard()
                 hc = nullptr;
             }
         }
+        row.clear();
     }
+    board.clear();
 
     for (auto i : playerCells)
     {
@@ -111,6 +113,7 @@ HexaCellBoard::~HexaCellBoard()
             i = nullptr;
         }
     }
+    playerCells.clear();
 
     for(auto i: botCells)
     {
@@ -120,9 +123,13 @@ HexaCellBoard::~HexaCellBoard()
             i = nullptr;
         }
     }
+    botCells.clear();
 
     if( selected != nullptr )
+    {
         delete selected;
+        selected = nullptr;
+    }
 }
 
 
@@ -248,6 +255,13 @@ list<HexaCell*> HexaCellBoard::dijkstra(HexaCell* start, HexaCell* end, int idPl
          temp = board[iMin][jMin];
          ret.push_front(temp);
      }
+
+     for(auto i: markedCells)
+         i.clear();
+     markedCells.clear();
+     for(auto i: distanceBoard)
+         i.clear();
+     distanceBoard.clear();
      return ret;
 }
 
