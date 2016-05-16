@@ -50,7 +50,7 @@ HexaCell::HexaCell( int i, int j, int pID, CellType ct=NORMAL, int pop=0 )
  */
 HexaCell::~HexaCell()
 {
-
+    delete &voisins;
 }
 
 /**

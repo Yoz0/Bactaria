@@ -12,6 +12,13 @@ IA::IA(HexaCellBoard* hcb, int PID)
     myPID = PID;
 }
 
+IA::~IA()
+{
+    delete playingBoard;
+}
+
+
+
 /**
  * @brief Choose what to do as the IA
  * @details Currently, the IA find its bigger cell and move half the pop from that cell to the closer cell that's not his.

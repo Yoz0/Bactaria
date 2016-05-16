@@ -99,6 +99,21 @@ HexaCellBoard::~HexaCellBoard()
                 delete hc;
         }
     }
+
+    for (auto i : playerCells)
+    {
+        if( i != nullptr )
+            delete i;
+    }
+
+    for(auto i: botCells)
+    {
+        if( i != nullptr )
+            delete i;
+    }
+
+    if( selected != nullptr )
+     delete selected;
 }
 
 

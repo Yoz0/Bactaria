@@ -25,6 +25,19 @@ MainWindow::MainWindow(QWidget *parent)
     this->start();
 }
 
+MainWindow::~MainWindow()
+{
+    delete scene;
+    delete gameView;
+    delete hexaCellBoard;
+    delete selectedCell;
+    delete hoverCell;
+    delete ia;
+    for( auto i :path)
+        if( i != nullptr )
+            delete i;
+}
+
 /**
  * @brief Load all the things we need to play
  */

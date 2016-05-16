@@ -5,6 +5,7 @@ class IA
 {
 public:
     IA(HexaCellBoard* hcb, int PID);
+    ~IA();
     void action();
 private:
     HexaCellBoard* playingBoard;
