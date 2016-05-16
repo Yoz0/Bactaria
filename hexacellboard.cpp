@@ -96,24 +96,33 @@ HexaCellBoard::~HexaCellBoard()
     for (auto row: board){
         for (auto hc: row){
             if (hc != nullptr)
+            {
                 delete hc;
+                hc = nullptr;
+            }
         }
     }
 
     for (auto i : playerCells)
     {
         if( i != nullptr )
+        {
             delete i;
+            i = nullptr;
+        }
     }
 
     for(auto i: botCells)
     {
         if( i != nullptr )
+        {
             delete i;
+            i = nullptr;
+        }
     }
 
     if( selected != nullptr )
-     delete selected;
+        delete selected;
 }
 
 

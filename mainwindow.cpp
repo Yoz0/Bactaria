@@ -28,11 +28,25 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete scene;
+    scene = nullptr;
     delete gameView;
+    gameView = nullptr;
     delete hexaCellBoard;
-    delete selectedCell;
-    delete hoverCell;
+    hexaCellBoard = nullptr;
+    if( selectedCell != nullptr)
+    {
+        delete selectedCell;
+        selectedCell = nullptr;
+    }
+
+    if( hoverCell != nullptr)
+    {
+        delete hoverCell;
+        hoverCell = nullptr;
+    }
+
     delete ia;
+    ia = nullptr;
     for( auto i :path)
         if( i != nullptr )
             delete i;

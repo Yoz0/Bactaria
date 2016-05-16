@@ -61,6 +61,7 @@ private:
     int timerIA;
 
     MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 };
 

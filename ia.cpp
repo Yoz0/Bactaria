@@ -15,6 +15,7 @@ IA::IA(HexaCellBoard* hcb, int PID)
 IA::~IA()
 {
     delete playingBoard;
+    playingBoard = nullptr;
 }
 
 
